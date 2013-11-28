@@ -1,3 +1,2 @@
-# ENV['RACK_ENV'] ||= :test
-
+# Load application
 require File.expand_path('../application', __FILE__)

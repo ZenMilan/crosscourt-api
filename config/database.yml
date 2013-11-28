@@ -1,0 +1,23 @@
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: cc_test
+  pool: 5
+  username: pruett
+  password: smokey
+
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: cc_development
+  pool: 5
+  username: pruett
+  password: smokey
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: cc_production
+  pool: 5
+  username: pruett
+  password: smokey

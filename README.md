@@ -1,8 +1,9 @@
 # Crosscourt API
 
-### Framework
+### Stack
 
 [Grape](https://github.com/intridea/grape)
+PG + ActiveRecord
 
 ### Authentication
 
