@@ -2,22 +2,16 @@
 
 ### Stack
 
-[Grape](https://github.com/intridea/grape)
-
-+
-
-[PG](http://www.postgresql.org/docs/)
-
-+
-
-[ActiveRecord](http://rubygems.org/gems/activerecord)
+- [Grape](https://github.com/intridea/grape)
+- [PG](http://www.postgresql.org/docs/)
+- [ActiveRecord](http://rubygems.org/gems/activerecord)
 
 ### Authentication
 
-[Warden](https://github.com/hassox/warden)
+- [Warden](https://github.com/hassox/warden)
 
 ### Testing
 
-Rspec 3.0.0.beta1
+- Rspec 3.0.0.beta1
 
-`RACK_ENV=test rspec`
+run `RACK_ENV=test rspec` to run rspec tests
