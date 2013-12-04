@@ -1,8 +1,8 @@
 module Crosscourt
   module User
+    # User-specific API endpoints
     class API < Grape::API
-
-      use Rack::Session::Cookie, :secret => "replace this with some secret key"
+      use Rack::Session::Cookie, secret: 'icculus'
 
       use Warden::Manager do |manager|
         manager.default_strategies :password
@@ -25,26 +25,25 @@ module Crosscourt
         { status: 'ok' }
       end
 
-      get "info" do
+      get 'info' do
         env['warden'].authenticate
-        error! "Unauthorized", 401 unless env['warden'].user
-        { "username" => env['warden'].user.name }
+        error! 'Unauthorized', 401 unless env['warden'].user
+        { 'username' => env['warden'].user.name }
       end
 
       post 'login' do
         env['warden'].authenticate(:password)
-        error! "Invalid username or password", 401 unless env['warden'].user
-        { "username" => env['warden'].user.name }
+        error! 'Invalid username or password', 401 unless env['warden'].user
+        { 'username' => env['warden'].user.name }
       end
 
       delete 'logout' do
         env['warden'].authenticate
-        error! "Logged out", 401 unless env['warden'].user
+        error! 'Logged out', 401 unless env['warden'].user
 
         env['warden'].logout
-        { "status" => "ok" }
+        { 'status' => 'ok' }
       end
-
     end
   end
 end

@@ -6,18 +6,18 @@ describe Crosscourt::API do
     Crosscourt::API
   end
 
-  describe "User Endpoints" do
+  describe 'User Endpoints' do
 
-    describe "POST /api/user" do
-      it "creates a user" do
-        post "/api/user"
+    describe 'POST /api/user' do
+      it 'creates a user' do
+        post '/api/user'
         pending
       end
     end
 
-    describe "GET /api/user/:id" do
-      it "returns user status" do
-        get "/api/user/1"
+    describe 'GET /api/user/:id' do
+      it 'returns user status' do
+        get '/api/user/1'
         pending
       end
     end

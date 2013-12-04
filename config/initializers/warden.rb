@@ -9,6 +9,6 @@ Warden::Strategies.add(:password) do
 
   def authenticate!
     u = Crosscourt::User.authenticate(params['username'], params['password'])
-    u.nil? ? fail!("Could not log in") : success!(u)
+    u.nil? ? fail!('Could not log in') : success!(u)
   end
 end
