@@ -9,6 +9,14 @@ module Crosscourt
         manager.failure_app = Crosscourt::API
       end
 
+      desc "Create a new user"
+      params do
+        requires :name, type: String, desc: "Your status."
+      end
+      post 'user' do
+        { name: params[:name] }
+      end
+
       get 'warden' do
         env['warden'].user
       end
