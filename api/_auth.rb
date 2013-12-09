@@ -2,7 +2,7 @@ module Crosscourt
   module Authentication
     class API < Grape::API
 
-      use Rack::Session::Cookie, :secret => "replace this with some secret key"
+      use Rack::Session::Cookie, :secret => "secret"
 
       use Warden::Manager do |manager|
         manager.default_strategies :password
@@ -22,7 +22,7 @@ module Crosscourt
       post 'login' do
         env['warden'].authenticate(:password)
         error! "Invalid username or password", 401 unless env['warden'].user
-        { "username" => env['warden'].user.name }
+        { "email" => env['warden'].user.email }
       end
 
       post 'logout' do

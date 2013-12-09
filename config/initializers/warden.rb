@@ -4,11 +4,15 @@ Warden::Manager.serialize_from_session { |id| User.find(id) }
 Warden::Strategies.add(:password) do
 
   def valid?
-    params['username'] || params['password']
+    params['email'] || params['password']
   end
 
   def authenticate!
-    u = User.authenticate(params['username'], params['password'])
-    u.nil? ? fail!("Could not log in") : success!(u)
+    user = User.find_by_email(params['email'])
+    if user && user.authenticate(params['password'])
+      success!(user)
+    else
+      fail!('Incorrect credentials')
+    end
   end
 end
