@@ -2,7 +2,7 @@ module Crosscourt
   module Authentication
     class API < Grape::API
 
-      use Rack::Session::Cookie, :secret => "secret"
+      use Rack::Session::Cookie, secret: 'smokey'
 
       use Warden::Manager do |manager|
         manager.default_strategies :password
@@ -21,11 +21,11 @@ module Crosscourt
 
       post 'login' do
         env['warden'].authenticate(:password)
-        error! "Invalid username or password", 401 unless env['warden'].user
-        { "email" => env['warden'].user.email }
+        error! "Invalid email or password", 401 unless env['warden'].user
+        { status: 'Logged in' }
       end
 
-      post 'logout' do
+      delete 'logout' do
         env['warden'].authenticate
         error! "Logged out", 401 unless env['warden'].user
 

@@ -1,5 +1,4 @@
 module Crosscourt
-  # Entire API
   class API < Grape::API
     version 'beta', using: :header, vendor: 'crosscourt'
     prefix 'api'
@@ -11,5 +10,3 @@ module Crosscourt
     mount Crosscourt::User::API
   end
 end
-
-puts Crosscourt::API.routes
