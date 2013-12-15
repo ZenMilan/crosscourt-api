@@ -9,28 +9,17 @@ module Crosscourt
         manager.failure_app = Crosscourt::API
       end
 
-      get 'auth_on' do
-        puts request.env['warden']
-      end
-
-      get "info" do
-        env['warden'].authenticate
-        error! "Unauthorized", 401 unless env['warden'].user
-        { "username" => env['warden'].user.name }
-      end
-
       post 'login' do
         env['warden'].authenticate(:password)
         error! "Invalid email or password", 401 unless env['warden'].user
-        { status: 'Logged in' }
+        { status: 'ok' }
       end
 
       delete 'logout' do
         env['warden'].authenticate
-        error! "Logged out", 401 unless env['warden'].user
-
+        error! "Unable to log out", 401 unless env['warden'].user
         env['warden'].logout
-        { "status" => "ok" }
+        { status: "ok" }
       end
 
     end
