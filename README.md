@@ -13,5 +13,3 @@
 ### Testing
 
 - Rspec 3.0.0.beta1
-
-run `RACK_ENV=test rspec` to run rspec tests
