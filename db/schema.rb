@@ -11,10 +11,48 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 1) do
+ActiveRecord::Schema.define(version: 6) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "affiliations", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "organization_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "features", force: true do |t|
+    t.integer  "project_id",                            null: false
+    t.string   "title"
+    t.text     "description"
+    t.decimal  "price",         precision: 8, scale: 2
+    t.string   "delivery_time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "organizations", force: true do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "projects", force: true do |t|
+    t.string   "name",            null: false
+    t.integer  "organization_id", null: false
+    t.string   "purpose"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "proposals", force: true do |t|
+    t.boolean  "approved",   default: false
+    t.integer  "project_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "name",            null: false

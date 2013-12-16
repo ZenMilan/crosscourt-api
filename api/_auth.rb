@@ -22,6 +22,12 @@ module Crosscourt
         { status: "ok" }
       end
 
+      get 'current_user' do
+        env['warden'].authenticate
+        error! "Cannot retrieve current user", 401 unless env['warden'].user
+        env['warden'].user
+      end
+
     end
   end
 end

@@ -6,6 +6,7 @@ RSpec.configure do |config|
   config.include Rack::Test::Methods
 end
 
+# Authentication Helpers
 shared_context "create new user" do
   before(:all) do
     User.create(name: "kevin", email: 'pruett.kevin@gmail.com', password: 'password123', password_confirmation: 'password123')

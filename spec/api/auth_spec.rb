@@ -7,8 +7,9 @@ describe Crosscourt::API do
   end
 
   describe 'Authentication' do
+
     describe 'POST /api/login' do
-      include_context "create new user"
+      include_context 'create new user'
 
       context 'with correct credentials' do
         it 'logs in user' do
@@ -55,5 +56,26 @@ describe Crosscourt::API do
       end
 
     end
+
+    describe 'GET /api/current_user' do
+      include_context "create new user"
+
+      context 'when logged in' do
+        it 'outputs current user info' do
+          login_user email: 'pruett.kevin@gmail.com', password: 'password123'
+          get '/api/current_user'
+          expect(JSON.parse(last_response.body)['email']).to eq('pruett.kevin@gmail.com')
+        end
+      end
+
+      context 'when not logged in' do
+        it 'fails to present current user info' do
+          get '/api/current_user'
+          expect(last_response.body).to eq({ error: 'Cannot retrieve current user' }.to_json)
+        end
+      end
+
+    end
+
   end
 end
