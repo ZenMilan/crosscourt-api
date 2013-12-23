@@ -4,9 +4,10 @@ ruby "2.0.0"
 
 gem 'activerecord', '~> 4.0.1', require: 'active_record'
 gem 'bcrypt-ruby'
+gem 'database_cleaner', group: :test
 gem 'dotenv', group: :development
 gem 'grape'
-gem 'grape-swagger'
+gem 'grape-entity'
 gem 'json'
 gem 'pg'
 gem 'racksh', group: :development, require: false
