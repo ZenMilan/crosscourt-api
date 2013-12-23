@@ -7,6 +7,5 @@ module Crosscourt
 
     mount Crosscourt::Authentication::API
     mount Crosscourt::Status::API
-    mount Crosscourt::User::API
   end
 end

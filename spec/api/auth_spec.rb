@@ -8,6 +8,38 @@ describe Crosscourt::API do
 
   describe 'Authentication' do
 
+    describe 'GET /api/signup/beta/:token' do
+      before(:all) do
+        AccessToken.generate_token
+      end
+
+      def token
+        AccessToken.last
+      end
+
+      context 'with valid token' do
+        it 'allows access to beta signup' do
+          get "/api/signup/beta/#{token.token}"
+          expect(last_response.body).to eq({ status: 'welcome to beta' }.to_json)
+        end
+      end
+
+      context 'with invalid token' do
+        it 'does not allow me access to beta signup' do
+          get '/api/signup/beta/123abc'
+          expect(last_response.body).to eq({ error: 'invalid token' }.to_json)
+        end
+      end
+
+      context 'with used token' do
+        it 'does not allow me access to beta signup' do
+          token.update_column('available', false)
+          get "/api/signup/beta/#{token.token}"
+          expect(last_response.body).to eq({ error: 'invalid token' }.to_json)
+        end
+      end
+    end
+
     describe 'POST /api/signup' do
       include_context 'create new user'
 

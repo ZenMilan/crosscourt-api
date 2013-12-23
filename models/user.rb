@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   has_many :affiliations
   has_many :organizations, through: :affiliations
 
-  has_secure_password
+  validates :email, uniqueness: true, presence: true
 
-  validates :email, uniqueness: true
+  has_secure_password
 end
