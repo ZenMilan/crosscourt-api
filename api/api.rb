@@ -5,7 +5,8 @@ module Crosscourt
     format :json
     default_format :json
 
-    mount Crosscourt::Authentication::API
     mount Crosscourt::Status::API
+    mount Crosscourt::Authentication::API
+    mount Crosscourt::Invitation::API
   end
 end

@@ -32,7 +32,7 @@ module Crosscourt
         end
 
         def logout!
-          env['warden'].logout
+          warden.logout
         end
       end
 
