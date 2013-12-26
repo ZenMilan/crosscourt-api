@@ -19,13 +19,12 @@ module Crosscourt
       end
       post 'signup/organization/new' do
         begin
-          org = ::Organization.create! params[:organization]
+          org = ::Organization.create!(params[:organization].to_hash)
           ::Affiliation.create!(user_id: current_user.id, organization_id: org.id)
-        rescue
-          error! "unable to create affiliation", 401
-        else
-          { status: 'successfully created affiliation' }
+        rescue Exception => e
+          error! e.message, 401
         end
+        { status: 'successfully created affiliation' }
       end
 
     end

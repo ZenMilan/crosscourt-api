@@ -22,7 +22,7 @@ end
 # Authentication Helpers
 shared_context "create new user" do
   before(:all) do
-    User.create(name: "kevin", email: 'pruett.kevin@gmail.com', password: 'password123', password_confirmation: 'password123')
+    User.create!(name: "kevin", email: 'pruett.kevin@gmail.com', password: 'password123', password_confirmation: 'password123')
   end
 
   after(:all) do

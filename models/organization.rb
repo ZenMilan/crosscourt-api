@@ -4,4 +4,6 @@ class Organization < ActiveRecord::Base
   has_many :projects
 
   alias_attribute :members, :users
+
+  validates :name, presence: true
 end
