@@ -13,6 +13,10 @@ describe Crosscourt::API do
         AccessToken.generate_token
       end
 
+      after(:all) do
+        AccessToken.destroy_all
+      end
+
       def token
         AccessToken.last
       end

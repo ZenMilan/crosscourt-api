@@ -1,10 +1,10 @@
-module API
-  module Entities
-    class Invitation < Grape::Entity
-      expose :name, :email
-    end
-  end
-end
+# module API
+#   module Entities
+#     class Invitation < Grape::Entity
+#       expose :name, :email
+#     end
+#   end
+# end
 
 module Crosscourt
   module Invitation
