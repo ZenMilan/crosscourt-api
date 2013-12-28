@@ -5,4 +5,10 @@ class User < ActiveRecord::Base
   validates :email, uniqueness: true, presence: true
 
   has_secure_password
+
+  TYPES = {
+    org_leader: "TeamLeader",
+    org_member: "TeamMember",
+    client: "Client"
+  }
 end

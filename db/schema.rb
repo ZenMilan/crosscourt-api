@@ -11,14 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 7) do
+ActiveRecord::Schema.define(version: 8) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "access_tokens", force: true do |t|
-    t.string   "token",                     null: false
-    t.boolean  "available",  default: true
+    t.string   "token",                      null: false
+    t.boolean  "available",  default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -41,6 +41,20 @@ ActiveRecord::Schema.define(version: 7) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "invitations", force: true do |t|
+    t.string   "type"
+    t.integer  "sender_id"
+    t.string   "recipient_email"
+    t.integer  "organization_id"
+    t.integer  "project_id"
+    t.string   "token"
+    t.datetime "sent_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "invitations", ["token"], name: "index_invitations_on_token", unique: true, using: :btree
 
   create_table "organizations", force: true do |t|
     t.string   "name",       null: false

@@ -1,0 +1,1 @@
+class OrgLeader < User; end

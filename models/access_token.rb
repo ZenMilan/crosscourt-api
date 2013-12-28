@@ -8,7 +8,7 @@ class AccessToken < ActiveRecord::Base
   protected
 
   def self.new_token
-    Digest::SHA1.hexdigest([Time.now, rand].join)
+    Digest::SHA1.hexdigest([Time.now, rand].join)[0..5]
   end
 
 end
