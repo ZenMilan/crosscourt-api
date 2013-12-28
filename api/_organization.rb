@@ -1,10 +1,10 @@
-# module API
-#   module Entities
-#     class Organization < Grape::Entity
-#       expose :name, :email
-#     end
-#   end
-# end
+module API
+  module Entities
+    class Organization < Grape::Entity
+      expose :name, :email
+    end
+  end
+end
 
 module Crosscourt
   module Organization

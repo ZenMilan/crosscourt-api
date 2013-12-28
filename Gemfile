@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby "2.0.0"
+ruby "2.1.0"
 
 gem 'activerecord', '~> 4.0.1', require: 'active_record'
 gem 'bcrypt-ruby'

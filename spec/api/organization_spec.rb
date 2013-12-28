@@ -24,5 +24,27 @@ describe Crosscourt::API do
       end
     end
 
+    describe '#members' do
+      it 'lists members of an organization' do
+
+        (1..5).each do |num|
+          User.create!(
+            name: "fullname#{num}",
+            email: "email#{num}@gmail.com",
+            password: "password#{num}",
+            password_confirmation: "password#{num}"
+          )
+        end
+
+        Organization.create!(name: "Sweet Co Bro")
+
+        (1..5).each do |num|
+          Affiliation.create!(user_id: User.where(email: "email#{num}@gmail.com").first.id, organization_id: Organization.last.id)
+        end
+
+        expect(Organization.last.members.count).to eq(5)
+      end
+    end
+
   end
 end
