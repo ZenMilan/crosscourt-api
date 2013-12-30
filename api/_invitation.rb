@@ -1,10 +1,10 @@
-# module API
-#   module Entities
-#     class Invitation < Grape::Entity
-#       expose :name, :email
-#     end
-#   end
-# end
+module API
+  module Entities
+    class Invitation < Grape::Entity
+      expose :recipient_email, :organization_id
+    end
+  end
+end
 
 module Crosscourt
   module Invitation
@@ -19,11 +19,10 @@ module Crosscourt
         end
       end
       post 'invite/member' do
-        invitation = ::Invitation::TYPES[:member].constantize.new(params[:invitation].to_hash)
-        puts invitation
-        # token = ::AccessToken.where(token: params[:token]).first
-        # error! "invalid token", 401 unless token and token.available?
-        # { status: 'welcome to beta' }
+        invitation = ::Invitation::TYPES[:member].constantize.create!(params[:invitation].to_hash)
+
+        present :status, 'invitation created'
+        present :invitation, invitation, with: ::API::Entities::Invitation
       end
 
     end

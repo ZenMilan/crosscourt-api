@@ -9,31 +9,46 @@ describe Crosscourt::API do
   describe 'Organization' do
 
     describe 'POST /api/signup/organization/new' do
-      include_context 'create new user'
+      include_context "with existing account"
 
-      it 'creates an organization for a new account' do
+      context 'with proper parameters' do
+        it 'creates an organization for a new account' do
+          login_account email: 'pruett.kevin@gmail.com', password: 'password123'
 
-        login_user email: 'pruett.kevin@gmail.com', password: 'password123'
+          org_params = { organization: { name: 'Acme Org' } }
+          post "/api/signup/organization/new", org_params
 
-        org = { organization: { name: 'Acme Org' } }
-        post "/api/signup/organization/new", org
-
-        expect(last_response.body).to eq({ status: 'successfully created affiliation' }.to_json)
-        expect(User.find(Affiliation.last.user_id).email).to eq 'pruett.kevin@gmail.com'
-        expect(Organization.find(Affiliation.last.organization_id).name).to eq 'Acme Org'
+          expect(last_response.body).to eq({ status: 'successfully created affiliation' }.to_json)
+          expect(User.find(Affiliation.last.user_id).email).to eq 'pruett.kevin@gmail.com'
+          expect(Organization.find(Affiliation.last.organization_id).name).to eq 'Acme Org'
+        end
       end
+
+      context 'with invalid parameters' do
+        it 'fails to create an organization' do
+          login_account email: 'pruett.kevin@gmail.com', password: 'password123'
+
+          org_params = { organization: { name: '' } }
+          post "/api/signup/organization/new", org_params
+
+          expect(last_response.body).to eq({ error: "Validation failed: Name can't be blank" }.to_json)
+          expect(Organization.count).to eq 0
+        end
+      end
+
     end
 
     describe '#members' do
       it 'lists members of an organization' do
 
         (1..5).each do |num|
-          User.create!(
-            name: "fullname#{num}",
-            email: "email#{num}@gmail.com",
-            password: "password#{num}",
-            password_confirmation: "password#{num}"
-          )
+
+          User::TYPES[:organization_member].constantize.create!(
+              name: "fullname#{num}",
+              email: "email#{num}@gmail.com",
+              password: "password#{num}",
+              password_confirmation: "password#{num}"
+            )
         end
 
         Organization.create!(name: "Sweet Co Bro")
