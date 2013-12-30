@@ -1,0 +1,1 @@
+class OrganizationMember < User; end

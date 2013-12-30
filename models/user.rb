@@ -7,8 +7,8 @@ class User < ActiveRecord::Base
   has_secure_password
 
   TYPES = {
-    org_leader: "TeamLeader",
-    org_member: "TeamMember",
+    organization_leader: "OrganizationLeader",
+    organization_member: "OrganizationMember",
     client: "Client"
   }
 end

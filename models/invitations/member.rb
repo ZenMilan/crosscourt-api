@@ -1,0 +1,1 @@
+class MemberInvitation < Invitation; end

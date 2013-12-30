@@ -17,8 +17,8 @@ ActiveRecord::Schema.define(version: 8) do
   enable_extension "plpgsql"
 
   create_table "access_tokens", force: true do |t|
-    t.string   "token",                      null: false
-    t.boolean  "available",  default: false
+    t.string   "token",                     null: false
+    t.boolean  "available",  default: true
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -78,9 +78,11 @@ ActiveRecord::Schema.define(version: 8) do
   end
 
   create_table "users", force: true do |t|
-    t.string   "name",            null: false
-    t.string   "email",           null: false
+    t.string   "type",            limit: 50, null: false
+    t.string   "name",                       null: false
+    t.string   "email",                      null: false
     t.string   "password_digest"
+    t.integer  "invitation_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

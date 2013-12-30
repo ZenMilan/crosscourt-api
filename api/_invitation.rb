@@ -11,17 +11,16 @@ module Crosscourt
     class API < Grape::API
       rescue_from :all
 
-      desc "Send invitations"
+      desc "Invite member to join organization"
       params do
         group :invitation do
-          requires :type, type: String
-          requires :recipient, type: String
-          # more stuff
+          requires :recipient_email, type: String
+          requires :organization_id
         end
       end
-      post 'invite' do
-        # invite member to
-
+      post 'invite/member' do
+        invitation = ::Invitation::TYPES[:member].constantize.new(params[:invitation].to_hash)
+        puts invitation
         # token = ::AccessToken.where(token: params[:token]).first
         # error! "invalid token", 401 unless token and token.available?
         # { status: 'welcome to beta' }

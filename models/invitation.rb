@@ -1,7 +1,7 @@
 class Invitation < ActiveRecord::Base
 
   TYPES = {
-    team: "TeamMemberInvitation",
+    member: "MemberInvitation",
     client: "ClientInvitation"
   }
 
@@ -9,7 +9,7 @@ class Invitation < ActiveRecord::Base
   belongs_to :recipient, class_name: "User"
 
   validates :recipient_email, presence: true
-  validate :recipient_is_not_registered
+  # validate :recipient_is_not_registered
 
   before_create :generate_token
 
@@ -25,9 +25,9 @@ class Invitation < ActiveRecord::Base
     user
   end
 
-  def recipient_is_not_registered
-    errors.add :recipient_email, 'is already registerd' if User.where(email: recipient_email)
-  end
+  # def recipient_is_not_registered
+  #   errors.add :recipient_email, 'is already registerd' if User.where(email: recipient_email)
+  # end
 
   def generate_token
     self.token = Digest::SHA1.hexdigest([Time.now, rand].join)

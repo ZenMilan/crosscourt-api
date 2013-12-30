@@ -28,7 +28,7 @@ module Crosscourt
         end
       end
       post 'signup' do
-        user = ::User.create!(params[:user].to_hash)
+        user = ::User::TYPES[:organization_leader].constantize.create!(params[:user].to_hash)
         error! "unable to create account", 401 unless user
         warden.set_user(user)
         present :status, 'account created'

@@ -6,22 +6,16 @@ describe Crosscourt::API do
     Crosscourt::API
   end
 
-  describe 'Authentication' do
+  describe 'Invitations' do
 
-    describe 'GET /api/signup/beta/:token' do
-      before(:all) do
-        AccessToken.generate_token
-      end
+    describe 'POST/api/invite/member' do
+      include_context 'log in organization leader'
 
-      after(:all) do
-        AccessToken.destroy_all
-      end
+      context 'with valid parameters' do
+        it 'creates an invitation to join organization' do
 
-      let(:token) { AccessToken.last }
-
-      context 'with valid token' do
-        it 'allows access to beta signup' do
-          get "/api/signup/beta/#{token.token}"
+          invitation = { invitation: { recipient_email: "test@aol.com", organization_id: org.id } }
+          post "/api/invite/member", invitation
           expect(last_response.body).to eq({ status: 'welcome to beta' }.to_json)
         end
       end
@@ -43,11 +37,12 @@ describe Crosscourt::API do
     end
 
     describe 'POST /api/signup' do
+      include_context 'create new user'
 
       context 'with all required parameters' do
         it 'successfully creates an account' do
-          user_params = { user: { name: "Kevin Pruett2", email: "pruett.kevin2@gmail.com", password: "smokey2", password_confirmation: "smokey2" } }
-          post '/api/signup', user_params
+          user = { user: { name: "Kevin Pruett2", email: "pruett.kevin2@gmail.com", password: "smokey2", password_confirmation: "smokey2" } }
+          post '/api/signup', user
           expect(JSON.parse(last_response.body)['current_user']['email']).to eq('pruett.kevin2@gmail.com')
         end
       end
@@ -60,26 +55,22 @@ describe Crosscourt::API do
         end
       end
 
-      context 'where another account has been created' do
-        include_context "with existing account"
-
-        context 'using credentials that already exist' do
-          it 'fails to create new account' do
-            user_params = { user: { name: "Kevin Pruett", email: "pruett.kevin@gmail.com", password: "smokey", password_confirmation: "smokey" } }
-            post '/api/signup', user_params
-            expect(last_response.body).to eq({ error: 'Validation failed: Email has already been taken' }.to_json)
-          end
+      context 'account using email already in use' do
+        it 'fails to create new account' do
+          user = { user: { name: "Kevin Pruett", email: "pruett.kevin@gmail.com", password: "smokey", password_confirmation: "smokey" } }
+          post '/api/signup', user
+          expect(last_response.body).to eq({ error: 'Validation failed: Email has already been taken' }.to_json)
         end
       end
 
     end
 
     describe 'POST /api/login' do
-      include_context "with existing account"
+      include_context 'create new user'
 
       context 'with correct credentials' do
         it 'logs in user' do
-          post '/api/login', email: 'pruett.kevin@gmail.com', password: 'password123'
+          login_user email: 'pruett.kevin@gmail.com', password: 'password123'
           expect(last_response.body).to eq({ status: 'logged in' }.to_json)
         end
       end
@@ -88,14 +79,14 @@ describe Crosscourt::API do
 
         context 'with correct email but incorrect password' do
           it 'reports invalid credentials' do
-            post 'api/login', email: 'pruett.kevin@gmail.com', password: 'password1234'
+            login_user email: 'pruett.kevin@gmail.com', password: 'password1234'
             expect(last_response.body).to eq({ error: 'invalid login credentials' }.to_json)
           end
         end
 
         context 'with incorrect email and correct password' do
           it 'reports invalid credentials' do
-            post 'api/login', email: 'pruettt.kevin@gmail.com', password: 'password123'
+            login_user email: 'pruettt.kevin@gmail.com', password: 'password123'
             expect(last_response.body).to eq({ error: 'invalid login credentials' }.to_json)
           end
         end
@@ -104,12 +95,12 @@ describe Crosscourt::API do
     end
 
     describe 'DELETE /api/logout' do
-      include_context "with existing account"
+      include_context "create new user"
 
       context 'when logged in' do
         it 'successfully logs me out' do
-          login_account email: 'pruett.kevin@gmail.com', password: 'password123'
-          delete '/api/logout'
+          login_user email: 'pruett.kevin@gmail.com', password: 'password123'
+          delete  '/api/logout'
           expect(last_response.body).to eq({ status: 'logged out' }.to_json)
         end
       end
@@ -124,11 +115,11 @@ describe Crosscourt::API do
     end
 
     describe 'GET /api/current_user' do
-      include_context "with existing account"
+      include_context "create new user"
 
       context 'when logged in' do
         it 'outputs current user info' do
-          login_account email: 'pruett.kevin@gmail.com', password: 'password123'
+          login_user email: 'pruett.kevin@gmail.com', password: 'password123'
           get '/api/current_user'
           expect(JSON.parse(last_response.body)['email']).to eq('pruett.kevin@gmail.com')
         end
