@@ -11,13 +11,19 @@ describe Crosscourt::API do
     describe 'POST/api/invite/member' do
 
       context 'with valid parameters' do
-        it 'creates an invitation to join organization' do
-          org = Organization.create!(name: "Test Org")
-          invitation_params = { invitation: { recipient_email: "test@aol.com", organization_id: org.id } }
+        let(:org) { Organization.create!(name: "Test Org") }
+        let(:invitation_params) { { invitation: { recipient_email: "test@aol.com", organization_id: org.id } } }
 
+        it 'creates an invitation to join organization' do
           post "/api/invite/member", invitation_params
-          # expect(last_response.body).to eq({ status: 'something' }.to_json)
-          puts last_response.body
+          expect(JSON.parse(last_response.body)['invitation']['recipient_email']).to eq('test@aol.com')
+        end
+
+        context 'when recipient is already affiliated' do
+
+          # let!(:affiliation) { Affilition.create! }
+          xit 'fails to create invitation' do
+          end
         end
       end
 
