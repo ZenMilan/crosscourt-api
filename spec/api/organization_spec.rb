@@ -12,10 +12,11 @@ describe Crosscourt::API do
       include_context "with existing account"
 
       context 'with proper parameters' do
+        let(:org_params) { { organization: { name: 'Acme Org' } } }
+
         it 'creates an organization for a new account' do
           login_account email: 'pruett.kevin@gmail.com', password: 'password123'
 
-          org_params = { organization: { name: 'Acme Org' } }
           post "/api/signup/organization/new", org_params
 
           expect(last_response.body).to eq({ status: 'successfully created affiliation' }.to_json)
@@ -25,10 +26,11 @@ describe Crosscourt::API do
       end
 
       context 'with invalid parameters' do
+        let(:org_params) { { organization: { name: '' } } }
+
         it 'fails to create an organization' do
           login_account email: 'pruett.kevin@gmail.com', password: 'password123'
 
-          org_params = { organization: { name: '' } }
           post "/api/signup/organization/new", org_params
 
           expect(last_response.body).to eq({ error: "Validation failed: Name can't be blank" }.to_json)
