@@ -20,9 +20,13 @@ describe Crosscourt::API do
         end
 
         context 'when recipient is already affiliated' do
+          include_context "with organization established"
 
-          # let!(:affiliation) { Affilition.create! }
-          xit 'fails to create invitation' do
+          let(:invitation_params) { { invitation: { recipient_email: "johnboy@aol.com", organization_id: Organization.last.id } } }
+
+          it 'fails to create invitation' do
+            post "api/invite/member", invitation_params
+            expect(last_response.body).to eq({ error: 'recipient already a member' }.to_json)
           end
         end
       end
