@@ -1,6 +1,6 @@
-shared_context "with organization established" do
+shared_context "with member invitation sent" do
   before(:all) do
-    let(:invitation) { Invitation.create!(recipient_email: "testmember@aol.com", organization_id: Organization.last.id, sender_id: User.last.id) }
+    Invitation::TYPES[:member].constantize.create!(recipient_email: "testmember@aol.com", organization_id: Organization.last.id, sender_id: User.last.id)
   end
 
   after(:all) do

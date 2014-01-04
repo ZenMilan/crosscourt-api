@@ -1,7 +1,7 @@
 module API
   module Entities
     class Invitation < Grape::Entity
-      expose :recipient_email, :organization_id
+      expose :type, :recipient_email, :organization_id, :project_id
     end
   end
 end
@@ -24,7 +24,11 @@ module Crosscourt
         end
 
         def invitee(email)
-          User.where(email: email).first
+          ::User.where(email: email).first
+        end
+
+        def parse_invitation(token)
+          invitation = ::Invitation.where(token: token).first
         end
       end
 
@@ -46,7 +50,11 @@ module Crosscourt
 
       desc "Redeem invitation"
       get 'invitation/redeem/:token' do
-        # type = Invitation.where(token: params[:token]).type
+        invitation = parse_invitation(params[:token])
+
+        error! "invalid invitation token", 401 if parse_invitation(params[:token]).blank?
+
+        present :invitation, invitation, with: ::API::Entities::Invitation
       end
 
     end

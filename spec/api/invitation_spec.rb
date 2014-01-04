@@ -51,14 +51,32 @@ describe Crosscourt::API do
 
     describe 'GET /api/invitation/redeem/:token' do
 
-      include_context "with organization established"
-      include_context "with member invitation sent"
+      context 'redeeming member invitation' do
 
-      it 'displays correct information' do
-        get "/api/invitation/reedem/#{invitation.token}"
+        include_context "with organization established"
+        include_context "with member invitation sent"
 
-        expect(JSON.parse(last_response.body)['status']).to eq('ok')
-        expect(Organization.find(JSON.parse(last_response.body)['organization_id']).name).to eq('TestOrg')
+        context 'with a legit invite token' do
+          it 'displays correct invitation information' do
+            get "/api/invitation/redeem/#{Invitation.last.token}"
+
+            expect(JSON.parse(last_response.body)['invitation']['recipient_email']).to eq('testmember@aol.com')
+            expect(Organization.find(JSON.parse(last_response.body)['invitation']['organization_id']).name).to eq('TestOrg')
+          end
+        end
+
+        context 'with an incorrect invite token' do
+          it 'displays proper error' do
+            get "/api/invitation/redeem/wrongabc"
+
+            expect(last_response.body).to eq({ error: 'invalid invitation token'}.to_json)
+          end
+        end
+
+      end
+
+      context 'redeeming client invitation' do
+        pending
       end
 
     end
