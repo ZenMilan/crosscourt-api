@@ -8,7 +8,7 @@ describe Crosscourt::API do
 
   describe 'Organization' do
 
-    describe 'POST /api/signup/organization/new' do
+    describe 'POST /api/signup/organization' do
       include_context "with existing account"
 
       context 'with proper parameters' do
@@ -17,7 +17,7 @@ describe Crosscourt::API do
         it 'creates an organization for a new account' do
           login_account email: 'pruett.kevin@gmail.com', password: 'password123'
 
-          post "/api/signup/organization/new", org_params
+          post "/api/signup/organization", org_params
 
           expect(last_response.body).to eq({ status: 'successfully created affiliation' }.to_json)
           expect(User.find(Affiliation.last.user_id).email).to eq 'pruett.kevin@gmail.com'
@@ -31,7 +31,7 @@ describe Crosscourt::API do
         it 'fails to create an organization' do
           login_account email: 'pruett.kevin@gmail.com', password: 'password123'
 
-          post "/api/signup/organization/new", org_params
+          post "/api/signup/organization", org_params
 
           expect(last_response.body).to eq({ error: "Validation failed: Name can't be blank" }.to_json)
           expect(Organization.count).to eq 0
