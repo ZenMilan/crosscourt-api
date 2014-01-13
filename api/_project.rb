@@ -12,6 +12,7 @@ module Crosscourt
         end
       end
       post 'project' do
+        # need to get organization from current user
         project = ::Project.create!(params[:project].to_hash)
         { status: 'successfully created project' }
       end

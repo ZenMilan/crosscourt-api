@@ -76,7 +76,19 @@ describe Crosscourt::API do
       end
 
       context 'redeeming client invitation' do
-        pending
+
+        include_context "with organization established"
+        include_context "with client invitation sent"
+
+        context 'with a legit invite token' do
+          it 'displays correct invitation information' do
+            get "/api/invitation/redeem/#{Invitation.last.token}"
+
+            expect(JSON.parse(last_response.body)['invitation']['recipient_email']).to eq('testclient@aol.com')
+            expect(Organization.find(JSON.parse(last_response.body)['invitation']['organization_id']).name).to eq('TestOrg')
+          end
+        end
+
       end
 
     end
