@@ -14,7 +14,7 @@ describe Crosscourt::API do
       context 'with correct credentials' do
         it 'logs in user' do
           post '/api/login', email: 'pruett.kevin@gmail.com', password: 'password123'
-          expect(last_response.body).to eq({ status: 'logged in' }.to_json)
+          expect(last_response.body).to eq({ message: 'user successfully logged in' }.to_json)
         end
       end
 
@@ -44,7 +44,7 @@ describe Crosscourt::API do
         it 'successfully logs me out' do
           login_account email: 'pruett.kevin@gmail.com', password: 'password123'
           delete '/api/logout'
-          expect(last_response.body).to eq({ status: 'logged out' }.to_json)
+          expect(last_response.body).to eq({ message: 'user successfully logged out' }.to_json)
         end
       end
 

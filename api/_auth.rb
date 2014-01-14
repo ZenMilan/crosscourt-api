@@ -6,7 +6,7 @@ module Crosscourt
       post 'login' do
         authenticate!
         error! "invalid login credentials", 401 unless current_user
-        { status: 'logged in' }
+        { message: 'user successfully logged in' }
       end
 
       desc "Logout of account"
@@ -14,7 +14,7 @@ module Crosscourt
         authenticate!
         error! "invalid request", 401 unless current_user
         logout!
-        { status: "logged out" }
+        { message: "user successfully logged out" }
       end
 
       desc "Check session's current user"
