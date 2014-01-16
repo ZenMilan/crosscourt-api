@@ -6,9 +6,9 @@ describe Crosscourt::API do
     Crosscourt::API
   end
 
-  describe 'Signup' do
+  describe 'Registration' do
 
-    describe 'GET /api/signup/beta/:token' do
+    describe 'GET /api/registration/beta/:token' do
       before(:all) do
         AccessToken.generate_token
       end
@@ -20,9 +20,9 @@ describe Crosscourt::API do
       let(:token) { AccessToken.last }
 
       context 'with valid token' do
-        it 'allows access to beta signup' do
-          get "/api/signup/beta/#{token.token}"
-          expect(last_response.body).to eq({ status: 'welcome to beta' }.to_json)
+        it 'allows access to beta registration' do
+          get "/api/registration/beta/#{token.token}"
+          expect(last_response.body).to eq({ message: 'welcome to beta' }.to_json)
         end
       end
 
@@ -42,13 +42,22 @@ describe Crosscourt::API do
       end
     end
 
-    describe 'POST /api/signup' do
+    describe 'POST /api/register' do
 
       context 'with all required parameters' do
-        it 'successfully creates an account' do
-          user_params = { user: { name: "Kevin Pruett2", email: "pruett.kevin2@gmail.com", password: "smokey2", password_confirmation: "smokey2" } }
-          post '/api/signup', user_params
-          expect(JSON.parse(last_response.body)['current_user']['email']).to eq('pruett.kevin2@gmail.com')
+        it 'successfully creates an account', registration: true do
+
+          registration_params =
+          {
+            user: { name: "Kevin Pruett2", email: "pruett.kevin2@gmail.com", password: "smokey2", password_confirmation: "smokey2" },
+            organization: { name: "Registration Organization!" },
+            payment: { payment_details: "VISA" }
+          }
+
+          post '/api/register', registration_params
+
+          puts last_response.body
+          # expect(JSON.parse(last_response.body)['current_user']['email']).to eq('pruett.kevin2@gmail.com')
         end
       end
 

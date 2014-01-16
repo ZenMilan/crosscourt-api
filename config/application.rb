@@ -11,6 +11,7 @@ Dotenv.load if defined?(Dotenv)
 
 # Require files
 Dir[File.expand_path('../initializers/*.rb', __FILE__)].each { |f| require f }
+Dir[File.expand_path('../../models/registrations/*.rb', __FILE__)].each { |f| require f }
 Dir[File.expand_path('../../models/*.rb', __FILE__)].each { |f| require f }
 Dir[File.expand_path('../../models/users/*.rb', __FILE__)].each { |f| require f }
 Dir[File.expand_path('../../models/invitations/*.rb', __FILE__)].each { |f| require f }
