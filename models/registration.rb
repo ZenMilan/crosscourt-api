@@ -1,25 +1,15 @@
 class Registration
-  include UserRegistration, OrganizationRegistration, PaymentRegistration
 
-  def save
-    if valid?
-      persist!
-      true
-    else
-      false
-    end
-  end
+  def register(params)
+    user = User::TYPES[:organization_leader].constantize.create!(params[:user].to_h)
 
-  private
+    organization = Organization.create!(params[:organization].to_h)
 
-  def persist!
-    # check params here
-    user = User::TYPES[:organization_leader].constantize.create!(things)
-    organization = Organization.create!(things)
-    payment = Payment.create!(things)
-    affiliation = Affiliation.create!(things)
+    payment = Payment.create!({ user_id: user.id, organization_id: organization.id }.merge(params[:payment].to_h))
 
-    { user: user, organization: organization, payment: payment, affiliation: affiliation }
+    affiliation = Affiliation.create!({ user_id: user.id, organization_id: organization.id })
+
+    true
   end
 
 end

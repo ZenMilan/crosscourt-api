@@ -49,15 +49,17 @@ describe Crosscourt::API do
 
           registration_params =
           {
-            user: { name: "Kevin Pruett2", email: "pruett.kevin2@gmail.com", password: "smokey2", password_confirmation: "smokey2" },
-            organization: { name: "Registration Organization!" },
-            payment: { payment_details: "VISA" }
+            registration:
+            {
+              user: { name: "kevin", email: "pruett.kevin@gmail.com", password: "password", password_confirmation: "password" },
+              organization: { name: "Registration Organization!" },
+              payment: { payment_details: "VISA" }
+            }
           }
 
           post '/api/register', registration_params
 
-          puts last_response.body
-          # expect(JSON.parse(last_response.body)['current_user']['email']).to eq('pruett.kevin2@gmail.com')
+          expect(JSON.parse(last_response.body)['current_user']['email']).to eq('pruett.kevin@gmail.com')
         end
       end
 

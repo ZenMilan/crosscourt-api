@@ -6,6 +6,8 @@ class Organization < ActiveRecord::Base
 
   alias_attribute :members, :users
 
+  validates :name, presence: true
+
   def owner
     User.find(payment.user_id)
   end
