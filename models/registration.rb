@@ -9,7 +9,7 @@ class Registration
 
     affiliation = Affiliation.create!({ user_id: user.id, organization_id: organization.id })
 
-    true
+    { user: user }
   end
 
 end

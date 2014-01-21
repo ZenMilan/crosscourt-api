@@ -59,7 +59,28 @@ describe Crosscourt::API do
 
           post '/api/register', registration_params
 
+          # General output check
+          expect(JSON.parse(last_response.body)['message']).to eq('account registered')
+
+          # General message check
           expect(JSON.parse(last_response.body)['current_user']['email']).to eq('pruett.kevin@gmail.com')
+          expect(User.find(JSON.parse(last_response.body)['current_user']['id']).organizations.last.name).to eq('Registration Organization!')
+          expect(User.find(JSON.parse(last_response.body)['current_user']['id']).organizations.last.owner.name).to eq('kevin')
+        end
+      end
+
+      context 'with missing user credentials' do
+        it 'logs proper error(s) and fails to register account', false_registration: true do
+
+          registration_params =
+          {
+            registration:
+            {
+              user: { name: "kevin", email: "pruett.kevin@gmail.com", password: "password", password_confirmation: "password" },
+              organization: { name: "Registration Organization!" },
+              payment: { payment_details: "VISA" }
+            }
+          }
         end
       end
 

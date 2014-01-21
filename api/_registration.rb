@@ -1,7 +1,7 @@
 module API
   module Entities
     class User < Grape::Entity
-      expose :name, :email
+      expose :id, :name, :email
     end
   end
 end
@@ -36,13 +36,11 @@ module Crosscourt
         end
       end
       post 'register' do
-        ::Registration.new.register(params[:registration])
-
-        warden.set_user(User.last)
+        registration = ::Registration.new.register(params[:registration])
+        warden.set_user(registration[:user])
         present :message, 'account registered'
         present :current_user, current_user, with: ::API::Entities::User
       end
-
     end
   end
 end
