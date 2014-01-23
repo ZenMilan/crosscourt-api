@@ -59,36 +59,57 @@ describe Crosscourt::API do
 
           post '/api/register', registration_params
 
-          # General output check
+          # Message response
           expect(JSON.parse(last_response.body)['message']).to eq('account registered')
 
-          # General message check
+          # Current user response
           expect(JSON.parse(last_response.body)['current_user']['email']).to eq('pruett.kevin@gmail.com')
+
+          # User/Organization relationship
           expect(User.find(JSON.parse(last_response.body)['current_user']['id']).organizations.last.name).to eq('Registration Organization!')
+
+          # Organization#owner wiring
           expect(User.find(JSON.parse(last_response.body)['current_user']['id']).organizations.last.owner.name).to eq('kevin')
         end
       end
 
-      context 'with missing user credentials' do
-        it 'logs proper error(s) and fails to register account', false_registration: true do
+      context 'with missing password_confirmation' do
+        it 'logs proper error(s) and fails to register account', registration: true do
+
+          registration_params =
+          {
+            registration:
+            {
+              user: { name: "kevin", email: "pruett.kevin@gmail.com", password: "password", password_confirmation: "" },
+              organization: { name: "Registration Organization!" },
+              payment: { payment_details: "VISA" }
+            }
+          }
+
+          post '/api/register', registration_params
+
+          expect(last_response.body).to eq({ error: "Validation failed: Password confirmation doesn't match Password, Password confirmation can't be blank" }.to_json)
+          expect(User.count).to eq 0
+        end
+      end
+
+      context 'with missing organization name' do
+        it 'logs proper error(s) and fails to register account', registration: true do
 
           registration_params =
           {
             registration:
             {
               user: { name: "kevin", email: "pruett.kevin@gmail.com", password: "password", password_confirmation: "password" },
-              organization: { name: "Registration Organization!" },
+              organization: { name: "" },
               payment: { payment_details: "VISA" }
             }
           }
-        end
-      end
 
-      context 'without an email' do
-        it 'fails to create new account' do
-          user = { user: { name: "Kevin Pruett", password: "smokey", password_confirmation: "smokey" } }
-          post '/api/signup', user
-          expect(last_response.body).to eq({ error: 'user[email] is missing' }.to_json)
+          post '/api/register', registration_params
+
+          expect(last_response.body).to eq({ error: "Validation failed: Name can't be blank" }.to_json)
+          expect(User.count).to eq 0
         end
       end
 

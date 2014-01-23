@@ -1,0 +1,3 @@
+class RegistrationOrganization
+
+end

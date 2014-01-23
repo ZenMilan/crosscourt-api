@@ -1,0 +1,3 @@
+class RegistrationPayment
+
+end
