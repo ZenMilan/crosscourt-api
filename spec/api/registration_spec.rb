@@ -28,7 +28,7 @@ describe Crosscourt::API do
 
       context 'with invalid token' do
         it 'does not allow me access to beta signup' do
-          get '/api/signup/beta/123abc'
+          get '/api/registration/beta/123abc'
           expect(last_response.body).to eq({ error: 'invalid token' }.to_json)
         end
       end
@@ -36,7 +36,7 @@ describe Crosscourt::API do
       context 'with used token' do
         it 'does not allow me access to beta signup' do
           token.update_column('available', false)
-          get "/api/signup/beta/#{token.token}"
+          get "/api/registration/beta/#{token.token}"
           expect(last_response.body).to eq({ error: 'invalid token' }.to_json)
         end
       end
@@ -45,7 +45,7 @@ describe Crosscourt::API do
     describe 'POST /api/register' do
 
       context 'with all required parameters' do
-        it 'successfully creates an account', registration: true do
+        it 'successfully creates an account' do
 
           registration_params =
           {
@@ -70,11 +70,34 @@ describe Crosscourt::API do
 
           # Organization#owner wiring
           expect(User.find(JSON.parse(last_response.body)['current_user']['id']).organizations.last.owner.name).to eq('kevin')
+
+          # User account created
+          expect(User.count).to eq 1
         end
       end
 
-      context 'with missing password_confirmation' do
-        it 'logs proper error(s) and fails to register account', registration: true do
+      context 'with multiple blank user credentials' do
+        it 'logs first error and fails to register account' do
+
+          registration_params =
+          {
+            registration:
+            {
+              user: { name: "  ", email: "pruett.kevin@gmail.com", password: "password", password_confirmation: "" },
+              organization: { name: "Registration Organization!" },
+              payment: { payment_details: "VISA" }
+            }
+          }
+
+          post '/api/register', registration_params
+
+          expect(last_response.body).to eq({ error: "Name was left blank" }.to_json)
+          expect(User.count).to eq 0
+        end
+      end
+
+      context 'with blank password confirmation' do
+        it 'logs proper error and fails to register account' do
 
           registration_params =
           {
@@ -88,13 +111,33 @@ describe Crosscourt::API do
 
           post '/api/register', registration_params
 
-          expect(last_response.body).to eq({ error: "Validation failed: Password confirmation doesn't match Password, Password confirmation can't be blank" }.to_json)
+          expect(last_response.body).to eq({ error: "Password confirmation was left blank" }.to_json)
           expect(User.count).to eq 0
         end
       end
 
-      context 'with missing organization name' do
-        it 'logs proper error(s) and fails to register account', registration: true do
+      context 'when password confirmation does not match' do
+        it 'displays proper error and fails to register account' do
+
+          registration_params =
+          {
+            registration:
+            {
+              user: { name: "kevin", email: "pruett.kevin@gmail.com", password: "password", password_confirmation: "wrongpassword" },
+              organization: { name: "Registration Organization!" },
+              payment: { payment_details: "VISA" }
+            }
+          }
+
+          post '/api/register', registration_params
+
+          expect(last_response.body).to eq({ error: "Validation failed: Password confirmation doesn't match Password" }.to_json)
+          expect(User.count).to eq 0
+        end
+      end
+
+      context 'with blank organization name' do
+        it 'logs proper error and fails to register account' do
 
           registration_params =
           {
@@ -108,20 +151,49 @@ describe Crosscourt::API do
 
           post '/api/register', registration_params
 
-          expect(last_response.body).to eq({ error: "Validation failed: Name can't be blank" }.to_json)
+          expect(last_response.body).to eq({ error: "Name was left blank" }.to_json)
           expect(User.count).to eq 0
         end
       end
 
-      context 'where another account has been created' do
+      context 'with missing user params' do
+        it 'identifies first missing param and fails to register account' do
+
+          registration_params =
+          {
+            registration:
+            {
+              user: { name: "kevin" },
+              organization: { name: "" },
+              payment: { payment_details: "VISA" }
+            }
+          }
+
+          post '/api/register', registration_params
+
+          expect(last_response.body).to eq({ error: "registration[user][email] is missing" }.to_json)
+          expect(User.count).to eq 0
+        end
+      end
+
+      context 'using credentials that already exist' do
         include_context "with existing account"
 
-        context 'using credentials that already exist' do
-          it 'fails to create new account' do
-            user_params = { user: { name: "Kevin Pruett", email: "pruett.kevin@gmail.com", password: "smokey", password_confirmation: "smokey" } }
-            post '/api/signup', user_params
-            expect(last_response.body).to eq({ error: 'Validation failed: Email has already been taken' }.to_json)
-          end
+        it 'fails to create new account' do
+
+          registration_params =
+          {
+            registration:
+            {
+              user: { name: "kevin", email: "pruett.kevin@gmail.com", password: "password", password_confirmation: "password" },
+              organization: { name: "another org" },
+              payment: { payment_details: "VISA" }
+            }
+          }
+
+          post '/api/register', registration_params
+
+          expect(last_response.body).to eq({ error: 'Validation failed: Email has already been taken' }.to_json)
         end
       end
 

@@ -121,4 +121,5 @@ DEPENDENCIES
   rack-test
   racksh
   rspec!
+  virtus
   warden
