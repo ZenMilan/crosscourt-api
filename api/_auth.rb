@@ -2,19 +2,20 @@ module Crosscourt
   module Authentication
     class API < Grape::API
 
-      desc "Login to account"
+      desc "Login"
       post 'login' do
         authenticate!
         error! "invalid login credentials", 401 unless current_user
-        { message: 'user successfully logged in' }
+        { message: 'successfully logged in' }
       end
 
-      desc "Logout of account"
+      desc "Logout"
       delete 'logout' do
-        authenticate!
+        # authenticate!
+        # {user: current_user}
         error! "invalid request", 401 unless current_user
         logout!
-        { message: "user successfully logged out" }
+        { message: "successfully logged out" }
       end
 
       desc "Check session's current user"

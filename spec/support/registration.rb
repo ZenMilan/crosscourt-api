@@ -7,4 +7,7 @@ shared_context "with existing account" do
     User.delete_all
   end
 
+  def login_account(params)
+    post 'api/login', params
+  end
 end
