@@ -11,9 +11,6 @@ module Crosscourt
 
       desc "Logout"
       delete 'logout' do
-        # authenticate!
-        # {user: current_user}
-        error! "invalid request", 401 unless current_user
         logout!
         { message: "successfully logged out" }
       end

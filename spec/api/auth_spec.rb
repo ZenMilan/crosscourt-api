@@ -44,8 +44,7 @@ describe Crosscourt::API do
         it 'successfully logs me out', test: true do
           login_account email: 'pruett.kevin@gmail.com', password: 'password'
           delete '/api/logout'
-          # expect(last_response.body).to eq({ message: 'successfully logged out' }.to_json)
-          puts last_response.body
+          expect(last_response.body).to eq({ message: 'successfully logged out' }.to_json)
         end
       end
 
