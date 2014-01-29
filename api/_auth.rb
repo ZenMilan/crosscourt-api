@@ -18,8 +18,10 @@ module Crosscourt
       desc "Check session's current user"
       get 'current_user' do
         authenticate!
-        error! "cannot retrieve current user", 401 unless current_user
-        current_user
+        puts env['warden'].user
+        # authenticate!
+        # error! "cannot retrieve current user", 401 unless current_user
+        # current_user
       end
 
     end
