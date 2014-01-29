@@ -23,7 +23,6 @@ module Crosscourt
     mount Crosscourt::Status::API
     mount Crosscourt::Registration::API
     mount Crosscourt::Authentication::API
-    # mount Crosscourt::Organization::API
     mount Crosscourt::Invitation::API
     mount Crosscourt::Project::API
   end
