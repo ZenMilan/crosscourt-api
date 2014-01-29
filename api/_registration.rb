@@ -25,7 +25,7 @@ module Crosscourt
         }.to_json, e.status)
       end
 
-      desc "Access to beta account! Fancy!"
+      desc "Gain access to fancy beta account!"
       get 'registration/beta/:token' do
         token = ::AccessToken.where(token: params[:token]).first
         error! "invalid token", 401 unless token and token.available?

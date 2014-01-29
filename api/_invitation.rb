@@ -14,7 +14,7 @@ module Crosscourt
       helpers do
         def create_invitation(params)
           invitation = ::Invitation::TYPES[:member].constantize.new(params.to_hash)
-          invitation.sender = current_user
+          invitation.sender = env['warden'].user
           invitation.save
           invitation
         end
@@ -32,11 +32,11 @@ module Crosscourt
         end
       end
 
-      desc "Invite member to join organization"
+      desc "Invite to join organization"
       params do
         group :invitation do
           requires :recipient_email, type: String
-          requires :organization_id
+          requires :organization_id, type: Integer
         end
       end
       post 'invite/member' do
@@ -46,6 +46,17 @@ module Crosscourt
 
         present :status, 'invitation created'
         present :invitation, invitation, with: ::API::Entities::Invitation
+      end
+
+      desc "Invite client to join project"
+      params do
+        group :invitation do
+          requires :recipient_email, type: String
+          requires :project_id, type: Integer
+        end
+      end
+      post 'invite/client' do
+        # logic for creating client invitation
       end
 
       desc "Redeem invitation"
