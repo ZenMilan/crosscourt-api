@@ -12,11 +12,10 @@ describe Crosscourt::API do
       include_context "with existing account"
 
       context 'with correct credentials' do
-        it 'logs in user', login1: true do
+        it 'logs in user' do
           post '/api/login', email: 'pruett.kevin@gmail.com', password: 'password'
-          # expect(last_response.body).to eq({ message: 'successfully logged in' }.to_json)
+          expect(last_response.body).to eq({ message: 'successfully logged in' }.to_json)
           get 'api/current_user'
-          p last_response
         end
       end
 
@@ -40,37 +39,50 @@ describe Crosscourt::API do
     end
 
     describe 'DELETE /api/logout' do
-      include_context "with existing account"
 
       context 'when logged in' do
-        it 'successfully logs me out', login: true do
+        include_context "with existing account"
+
+        it 'successfully logs me out' do
+
+          # Simulate login
           post '/api/login', email: 'pruett.kevin@gmail.com', password: 'password'
-          get 'api/current_user'
-          p last_response
-          # delete '/api/logout'
-          # p last_response
-          # expect(last_response.body).to eq({ message: 'successfully logged out' }.to_json)
+
+          delete '/api/logout'
+          expect(last_response.body).to eq({ message: 'successfully logged out' }.to_json)
+        end
+      end
+
+      context 'when not logged in' do
+
+        it 'successfully logs me out' do
+
+          delete '/api/logout'
+          expect(last_response.body).to eq({ error: 'unauthenticated' }.to_json)
         end
       end
 
     end
 
     describe 'GET /api/current_user' do
-      include_context "with existing account"
 
-      context 'when logged in', test: true do
+      context 'when logged in' do
+        include_context "with existing account"
+
         it 'outputs current user info' do
-          login_account email: 'pruett.kevin@gmail.com', password: 'password'
+
+          # Simulate login
+          post '/api/login', email: 'pruett.kevin@gmail.com', password: 'password'
+
           get '/api/current_user'
-          # expect(JSON.parse(last_response.body)['email']).to eq('pruett.kevin@gmail.com')
-          puts last_response.body
+          expect(JSON.parse(last_response.body)['current_user']['email']).to eq('pruett.kevin@gmail.com')
         end
       end
 
       context 'when not logged in' do
-        it 'fails to present current user info' do
+        it 'fails to present current user info', current: true do
           get '/api/current_user'
-          expect(last_response.body).to eq({ error: 'cannot retrieve current user' }.to_json)
+          expect(last_response.body).to eq({ error: 'unauthenticated' }.to_json)
         end
       end
 

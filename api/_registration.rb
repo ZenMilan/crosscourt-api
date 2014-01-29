@@ -29,7 +29,8 @@ module Crosscourt
       get 'registration/beta/:token' do
         token = ::AccessToken.where(token: params[:token]).first
         error! "invalid token", 401 unless token and token.available?
-        { message: 'welcome to beta' }
+
+        present :message, 'welcome to beta'
       end
 
       desc "Register new account"
@@ -51,9 +52,10 @@ module Crosscourt
       end
       post 'register' do
         registration = ::Registration.new.register!(params[:registration])
-        warden.set_user(registration[:user])
+        env['warden'].set_user(registration[:user])
+
         present :message, 'account registered'
-        present :current_user, current_user, with: ::API::Entities::User
+        present :current_user, env['warden'].user, with: ::API::Entities::User
       end
     end
   end

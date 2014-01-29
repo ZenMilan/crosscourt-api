@@ -1,3 +1,11 @@
+module API
+  module Entities
+    class User < Grape::Entity
+      expose :id, :name, :email
+    end
+  end
+end
+
 module Crosscourt
   module Authentication
     class API < Grape::API
@@ -9,21 +17,22 @@ module Crosscourt
       end
       post 'login' do
         env['warden'].authenticate!
-        p env['warden'].user
-        # present :message, 'successfully logged in'
+        present :message, 'successfully logged in'
       end
 
       desc "Logout"
       delete 'logout' do
+        throw(:warden, error: 'unauthenticated') unless env['warden'].authenticated?
+
         env['warden'].logout
-        { message: "successfully logged out" }
+        present :message, "successfully logged out"
       end
 
       desc "Fetch current user"
       get 'current_user' do
-        p env['warden'].user
-        # error! "cannot retrieve current user", 401 unless current_user
-        # current_user
+        throw(:warden, error: 'unauthenticated') unless env['warden'].authenticated?
+
+        present :current_user, env['warden'].user, with: ::API::Entities::User
       end
 
     end

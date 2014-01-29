@@ -1,7 +1,9 @@
 module Crosscourt
   class AuthFailure
     def self.call(env)
-      [401, {'Content-Type' => 'application/json'}, [{error: env['warden'].message}.to_json]]
+      message = env['warden'].message.present? ? env['warden'].message : env['warden.options'][:error]
+
+      [401, {'Content-Type' => 'application/json'}, [{error: message}.to_json]]
     end
   end
 
