@@ -12,24 +12,6 @@ module Crosscourt
       manager.failure_app = Crosscourt::API
     end
 
-    helpers do
-      def warden
-        env['warden']
-      end
-
-      def current_user
-        warden.user
-      end
-
-      def authenticate!
-        warden.authenticate
-      end
-
-      def logout!
-        warden.logout
-      end
-    end
-
     mount Crosscourt::Status::API
     mount Crosscourt::Registration::API
     mount Crosscourt::Authentication::API
