@@ -1,4 +1,10 @@
 module Crosscourt
+  class AuthFailure
+    def self.call(env)
+      [401, {'Content-Type' => 'application/json'}, [{error: env['warden'].message}.to_json]]
+    end
+  end
+
   class API < Grape::API
     version 'beta', using: :header, vendor: 'crosscourt'
     prefix 'api'
@@ -9,7 +15,7 @@ module Crosscourt
 
     use Warden::Manager do |manager|
       manager.default_strategies :password
-      manager.failure_app = Crosscourt::API
+      manager.failure_app = Crosscourt::AuthFailure
     end
 
     mount Crosscourt::Status::API

@@ -12,10 +12,11 @@ describe Crosscourt::API do
       include_context "with existing account"
 
       context 'with correct credentials' do
-        it 'logs in user', login: true do
+        it 'logs in user', login1: true do
           post '/api/login', email: 'pruett.kevin@gmail.com', password: 'password'
           # expect(last_response.body).to eq({ message: 'successfully logged in' }.to_json)
-          puts last_response.body
+          get 'api/current_user'
+          p last_response
         end
       end
 
@@ -24,14 +25,14 @@ describe Crosscourt::API do
         context 'with correct email but incorrect password' do
           it 'reports invalid credentials' do
             post 'api/login', email: 'pruett.kevin@gmail.com', password: 'wrongpassword'
-            expect(last_response.body).to eq({ error: 'invalid login credentials' }.to_json)
+            expect(last_response.body).to eq({ error: 'incorrect email or password' }.to_json)
           end
         end
 
         context 'with incorrect email and correct password' do
           it 'reports invalid credentials' do
             post 'api/login', email: 'pruettt.kevin@gmail.com', password: 'password'
-            expect(last_response.body).to eq({ error: 'invalid login credentials' }.to_json)
+            expect(last_response.body).to eq({ error: 'incorrect email or password' }.to_json)
           end
         end
 
@@ -42,10 +43,13 @@ describe Crosscourt::API do
       include_context "with existing account"
 
       context 'when logged in' do
-        it 'successfully logs me out' do
-          login_account email: 'pruett.kevin@gmail.com', password: 'password'
-          delete '/api/logout'
-          expect(last_response.body).to eq({ message: 'successfully logged out' }.to_json)
+        it 'successfully logs me out', login: true do
+          post '/api/login', email: 'pruett.kevin@gmail.com', password: 'password'
+          get 'api/current_user'
+          p last_response
+          # delete '/api/logout'
+          # p last_response
+          # expect(last_response.body).to eq({ message: 'successfully logged out' }.to_json)
         end
       end
 

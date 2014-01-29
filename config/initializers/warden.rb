@@ -12,7 +12,7 @@ Warden::Strategies.add(:password) do
     if user && user.authenticate(params['password'])
       success!(user)
     else
-      fail!('Incorrect email or password')
+      fail!('incorrect email or password')
     end
   end
 end

@@ -3,11 +3,14 @@ module Crosscourt
     class API < Grape::API
 
       desc "Login"
+      params do
+        requires :email
+        requires :password
+      end
       post 'login' do
-        # env['warden'].authenticate
-        error! "invalid login credentials", 401 unless env['warden'].authenticate
-        present :message, 'successfully logged in'
-        present :current_user, env['warden'].authenticate
+        env['warden'].authenticate!
+        p env['warden'].user
+        # present :message, 'successfully logged in'
       end
 
       desc "Logout"
@@ -16,9 +19,9 @@ module Crosscourt
         { message: "successfully logged out" }
       end
 
-      desc "Check session's current user"
+      desc "Fetch current user"
       get 'current_user' do
-        env['warden'].authenticate
+        p env['warden'].user
         # error! "cannot retrieve current user", 401 unless current_user
         # current_user
       end
