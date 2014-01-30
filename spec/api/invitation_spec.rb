@@ -42,7 +42,7 @@ describe Crosscourt::API do
 
       context 'with invalid params' do
         it 'reports failures', invitation: true do
-          post "api/invite/member", { invitation: { recipient_email: '', organization_id: ''}}
+          post "api/invite/member", { invitation: { recipient_emaill: '', organization_id: ''}}
           # expect(last_response.body).to eq({ error: 'invitation[organization_id] is missing' }.to_json)
           puts last_response.body
         end

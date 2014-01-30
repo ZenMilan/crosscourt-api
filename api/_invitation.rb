@@ -1,15 +1,12 @@
-module API
-  module Entities
-    class Invitation < Grape::Entity
-      expose :type, :recipient_email, :organization_id, :project_id, :sender_id
-    end
-  end
-end
-
 module Crosscourt
   module Invitation
     class API < Grape::API
       rescue_from :all
+      rescue_from Grape::Exceptions::ValidationErrors do |e|
+        Rack::Response.new({
+          error: e.message.split(',')[0]
+        }.to_json, e.status)
+      end
 
       helpers do
         def create_invitation(params)
@@ -35,8 +32,8 @@ module Crosscourt
       desc "Invite to join organization"
       params do
         group :invitation do
-          requires :recipient_email, type: String
-          requires :organization_id, type: Integer
+          requires :recipient_email, type: String, non_blank: true
+          requires :organization_id, type: Integer, non_blank: true
         end
       end
       post 'invite/member' do

@@ -1,19 +1,11 @@
-module API
-  module Entities
-    class User < Grape::Entity
-      expose :id, :name, :email
-    end
-  end
-end
-
 module Crosscourt
   module Authentication
     class API < Grape::API
 
       desc "Login"
       params do
-        requires :email
-        requires :password
+        requires :email, type: String
+        requires :password, type: String
       end
       post 'login' do
         env['warden'].authenticate!
@@ -28,7 +20,7 @@ module Crosscourt
         present :message, "successfully logged out"
       end
 
-      desc "Fetch current user"
+      desc "Fetch current user's information"
       get 'current_user' do
         throw(:warden, error: 'unauthenticated') unless env['warden'].authenticated?
 

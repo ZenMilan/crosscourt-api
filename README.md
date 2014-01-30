@@ -3,8 +3,8 @@
 ### Stack
 
 - [Grape](https://github.com/intridea/grape)
-- [PG](http://www.postgresql.org/docs/)
 - [ActiveRecord](http://rubygems.org/gems/activerecord)
+- [PG](http://www.postgresql.org/docs/)
 
 ### Authentication
 

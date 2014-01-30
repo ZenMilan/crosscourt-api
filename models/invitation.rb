@@ -10,6 +10,8 @@ class Invitation < ActiveRecord::Base
 
   before_create :generate_token
 
+  validates :recipient_email, presence: true
+
   private
 
   # def self.build_user(type, invitation_token)
