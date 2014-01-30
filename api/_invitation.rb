@@ -29,11 +29,11 @@ module Crosscourt
         end
       end
 
-      desc "Invite to join organization"
+      desc "Send invitation to join organization"
       params do
         group :invitation do
           requires :recipient_email, type: String, non_blank: true
-          requires :organization_id, type: Integer, non_blank: true
+          requires :organization_id, non_blank: true
         end
       end
       post 'invite/member' do
@@ -49,7 +49,7 @@ module Crosscourt
       params do
         group :invitation do
           requires :recipient_email, type: String
-          requires :project_id, type: Integer
+          requires :project_id, non_blank: true
         end
       end
       post 'invite/client' do

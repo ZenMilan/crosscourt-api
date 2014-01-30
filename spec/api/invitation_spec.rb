@@ -40,14 +40,27 @@ describe Crosscourt::API do
         end
       end
 
-      context 'with invalid params' do
-        it 'reports failures', invitation: true do
-          post "api/invite/member", { invitation: { recipient_emaill: '', organization_id: ''}}
-          # expect(last_response.body).to eq({ error: 'invitation[organization_id] is missing' }.to_json)
-          puts last_response.body
+      context 'with incorrect params' do
+
+        context 'without a recipient' do
+          it 'reports error message' do
+            post '/api/invite/member', { invitation: { recipient_email: '', organization_id: 2 } }
+            expect(last_response.body).to eq({ error: 'Recipient email was left blank' }.to_json)
+          end
         end
+
+        context 'without an organization id' do
+          it 'reports proper error message' do
+            post '/api/invite/member', { invitation: { recipient_email: 'recipient@gmail.com', organization_id: '' } }
+            expect(last_response.body).to eq({ error: 'Organization was left blank' }.to_json)
+          end
+        end
+
       end
 
+    end
+
+    describe 'POST /api/invite/client' do
     end
 
     describe 'GET /api/invitation/redeem/:token' do
@@ -55,14 +68,20 @@ describe Crosscourt::API do
       context 'redeeming member invitation' do
 
         include_context "with organization established"
-        include_context "with member invitation sent"
+        # include_context "with member invitation sent"
 
         context 'with a legit invite token' do
-          it 'displays correct invitation information' do
-            get "/api/invitation/redeem/#{Invitation.last.token}"
+          let(:invitation) do
+            Invitation::TYPES[:member].constantize.create!(recipient_email: "testmember@aol.com", organization_id: Organization.last.id, sender_id: User.last.id)
+          end
 
-            expect(JSON.parse(last_response.body)['invitation']['recipient_email']).to eq('testmember@aol.com')
-            expect(Organization.find(JSON.parse(last_response.body)['invitation']['organization_id']).name).to eq('TestOrg')
+          it 'displays correct invitation information', redeem: true do
+            # get "/api/invitation/redeem/#{invitation.token}"
+
+            # expect(JSON.parse(last_response.body)['invitation']['recipient_email']).to eq('testmember@aol.com')
+            # expect(Organization.find(JSON.parse(last_response.body)['invitation']['organization_id']).name).to eq('TestOrg')
+            puts invitation.token
+            # puts last_response.body
           end
         end
 
