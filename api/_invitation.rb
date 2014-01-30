@@ -1,7 +1,7 @@
 module API
   module Entities
     class Invitation < Grape::Entity
-      expose :type, :recipient_email, :organization_id, :project_id
+      expose :type, :recipient_email, :organization_id, :project_id, :sender_id
     end
   end
 end
@@ -44,7 +44,7 @@ module Crosscourt
 
         error! "recipient already a member", 401 unless check_affiliation(params[:invitation]).blank?
 
-        present :status, 'invitation created'
+        present :message, 'invitation created'
         present :invitation, invitation, with: ::API::Entities::Invitation
       end
 

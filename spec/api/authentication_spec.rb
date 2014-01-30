@@ -23,14 +23,14 @@ describe Crosscourt::API do
 
         context 'with correct email but incorrect password' do
           it 'reports invalid credentials' do
-            post 'api/login', email: 'pruett.kevin@gmail.com', password: 'wrongpassword'
+            post '/api/login', email: 'pruett.kevin@gmail.com', password: 'wrongpassword'
             expect(last_response.body).to eq({ error: 'incorrect email or password' }.to_json)
           end
         end
 
         context 'with incorrect email and correct password' do
           it 'reports invalid credentials' do
-            post 'api/login', email: 'pruettt.kevin@gmail.com', password: 'password'
+            post '/api/login', email: 'pruettt.kevin@gmail.com', password: 'password'
             expect(last_response.body).to eq({ error: 'incorrect email or password' }.to_json)
           end
         end
