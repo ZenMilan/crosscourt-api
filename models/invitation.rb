@@ -8,7 +8,9 @@ class Invitation < ActiveRecord::Base
   belongs_to :sender, class_name: "User"
   belongs_to :recipient, class_name: "User"
 
-  before_create :generate_token
+  validates :token, uniqueness: true
+
+  before_create :generate_token!
 
   private
 
@@ -22,7 +24,7 @@ class Invitation < ActiveRecord::Base
   #   user
   # end
 
-  def generate_token
-    self.token = Digest::SHA1.hexdigest([Time.now, rand].join)
+  def generate_token!
+    self.token = Digest::SHA1.hexdigest([Time.now, rand].join)[0..6]
   end
 end

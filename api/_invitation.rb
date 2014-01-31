@@ -9,8 +9,8 @@ module Crosscourt
       end
 
       helpers do
-        def create_invitation(params)
-          invitation = ::Invitation::TYPES[:member].constantize.new(params.to_hash)
+        def create_invitation(type, params)
+          invitation = ::Invitation::TYPES[type].constantize.new(params.to_hash)
           invitation.sender = env['warden'].user
           invitation.save
           invitation
@@ -37,11 +37,11 @@ module Crosscourt
         end
       end
       post 'invite/member' do
-        invitation = create_invitation(params[:invitation])
+        invitation = create_invitation(:member, params[:invitation])
 
-        error! "recipient already a member", 401 unless check_affiliation(params[:invitation]).blank?
+        error! "#{params[:invitation][:recipient_email]} is already a member of #{::Organization.find(params[:invitation][:organization_id]).name}", 401 unless check_affiliation(params[:invitation]).blank?
 
-        present :message, 'invitation created'
+        present :message, "an invitation was sent to #{invitation.recipient_email} to join #{::Organization.find(invitation.organization_id).name}"
         present :invitation, invitation, with: ::API::Entities::Invitation
       end
 
@@ -53,7 +53,12 @@ module Crosscourt
         end
       end
       post 'invite/client' do
-        # logic for creating client invitation
+        invitation = create_invitation(:client, params[:invitation])
+
+        error! "#{params[:invitation][:recipient_email]} is already included on project #{::Project.find(params[:invitation][:project_id]).name}", 401 unless check_affiliation(params[:invitation]).blank?
+
+        present :message, "an invitation was sent to #{params[:invitation][:recipient_email]} to join project #{::Project.find(params[:invitation][:project_id]).name}"
+        present :invitation, invitation, with: ::API::Entities::Invitation
       end
 
       desc "Redeem invitation"
