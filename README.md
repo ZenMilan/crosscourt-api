@@ -20,3 +20,5 @@ While developing indivdually, I tend to overwrite the database migrations :)
 If so, use the following:
 
 `RAKE_ENV=test rake db:drop db:create db:migrate`
+
+Might have to run `rake db:test:prepare` as well?

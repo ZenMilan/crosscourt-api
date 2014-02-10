@@ -33,6 +33,7 @@ module Crosscourt
           end
         end
       end
+
       post 'register' do
         registration = ::Registration.new.register!(params[:registration])
         env['warden'].set_user(registration[:user])

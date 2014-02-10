@@ -5,9 +5,9 @@ class Registration
 
     organization = Organization.create!(params[:organization].to_h)
 
-    payment = Payment.create!({ user_id: user.id, organization_id: organization.id }.merge(params[:payment].to_h))
+    Payment.create!({ user_id: user.id, organization_id: organization.id }.merge(params[:payment].to_h))
 
-    affiliation = Affiliation.create!({ user_id: user.id, organization_id: organization.id })
+    OrganizationAffiliation.create!({ user_id: user.id, organization_id: organization.id })
 
     { user: user }
   end

@@ -45,9 +45,7 @@ describe Crosscourt::API do
     describe 'POST /api/register' do
 
       context 'with all required parameters' do
-        it 'successfully creates an account' do
-
-          registration_params =
+        let(:registration_params) {
           {
             registration:
             {
@@ -56,30 +54,42 @@ describe Crosscourt::API do
               payment: { payment_details: "VISA" }
             }
           }
+        }
 
+        it 'prints success message' do
           post '/api/register', registration_params
 
-          # Message response
           expect(JSON.parse(last_response.body)['message']).to eq('account registered')
+        end
 
-          # Current user response
+        it 'properly sets current user' do
+          post '/api/register', registration_params
+
           expect(JSON.parse(last_response.body)['current_user']['email']).to eq('pruett.kevin@gmail.com')
+        end
 
-          # User/Organization relationship
+        it 'affiliates user with organization' do
+          post '/api/register', registration_params
+
           expect(User.find(JSON.parse(last_response.body)['current_user']['id']).organizations.last.name).to eq('Registration Organization!')
+        end
 
-          # Organization#owner wiring
+        it 'registered user is the organization#owner' do
+          post '/api/register', registration_params
+
           expect(User.find(JSON.parse(last_response.body)['current_user']['id']).organizations.last.owner.name).to eq('kevin')
+        end
 
-          # User account created
+        it 'increments user count by 1' do
+          post '/api/register', registration_params
+
           expect(User.count).to eq 1
         end
+
       end
 
       context 'with multiple blank user credentials' do
-        it 'logs first error and fails to register account' do
-
-          registration_params =
+        let(:registration_params) {
           {
             registration:
             {
@@ -88,7 +98,9 @@ describe Crosscourt::API do
               payment: { payment_details: "VISA" }
             }
           }
+        }
 
+        it 'logs first error and fails to register account' do
           post '/api/register', registration_params
 
           expect(last_response.body).to eq({ error: "Name was left blank" }.to_json)
@@ -97,9 +109,7 @@ describe Crosscourt::API do
       end
 
       context 'with blank password confirmation' do
-        it 'logs proper error and fails to register account' do
-
-          registration_params =
+        let(:registration_params) {
           {
             registration:
             {
@@ -108,7 +118,9 @@ describe Crosscourt::API do
               payment: { payment_details: "VISA" }
             }
           }
+        }
 
+        it 'logs proper error and fails to register account' do
           post '/api/register', registration_params
 
           expect(last_response.body).to eq({ error: "Password confirmation was left blank" }.to_json)
@@ -117,9 +129,7 @@ describe Crosscourt::API do
       end
 
       context 'when password confirmation does not match' do
-        it 'displays proper error and fails to register account' do
-
-          registration_params =
+        let(:registration_params) {
           {
             registration:
             {
@@ -128,7 +138,9 @@ describe Crosscourt::API do
               payment: { payment_details: "VISA" }
             }
           }
+        }
 
+        it 'displays proper error and fails to register account' do
           post '/api/register', registration_params
 
           expect(last_response.body).to eq({ error: "Validation failed: Password confirmation doesn't match Password" }.to_json)
@@ -137,9 +149,7 @@ describe Crosscourt::API do
       end
 
       context 'with blank organization name' do
-        it 'logs proper error and fails to register account' do
-
-          registration_params =
+        let(:registration_params) {
           {
             registration:
             {
@@ -148,7 +158,9 @@ describe Crosscourt::API do
               payment: { payment_details: "VISA" }
             }
           }
+        }
 
+        it 'logs proper error and fails to register account' do
           post '/api/register', registration_params
 
           expect(last_response.body).to eq({ error: "Name was left blank" }.to_json)
@@ -156,32 +168,9 @@ describe Crosscourt::API do
         end
       end
 
-      context 'with missing user params' do
-        it 'identifies first missing param and fails to register account' do
-
-          registration_params =
-          {
-            registration:
-            {
-              user: { name: "kevin" },
-              organization: { name: "" },
-              payment: { payment_details: "VISA" }
-            }
-          }
-
-          post '/api/register', registration_params
-
-          expect(last_response.body).to eq({ error: "registration[user][email] is missing" }.to_json)
-          expect(User.count).to eq 0
-        end
-      end
-
       context 'using credentials that already exist' do
         include_context "with existing account"
-
-        it 'fails to create new account' do
-
-          registration_params =
+        let(:registration_params) {
           {
             registration:
             {
@@ -190,7 +179,9 @@ describe Crosscourt::API do
               payment: { payment_details: "VISA" }
             }
           }
+        }
 
+        it 'fails to create new account' do
           post '/api/register', registration_params
 
           expect(last_response.body).to eq({ error: 'Validation failed: Email has already been taken' }.to_json)

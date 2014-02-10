@@ -1,4 +1,4 @@
-class Affiliation < ActiveRecord::Base
+class OrganizationAffiliation < ActiveRecord::Base
   belongs_to :user
   belongs_to :organization
 
