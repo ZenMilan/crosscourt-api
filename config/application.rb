@@ -15,6 +15,7 @@ Dir[File.expand_path('../../models/registrations/*.rb', __FILE__)].each { |f| re
 Dir[File.expand_path('../../models/*.rb', __FILE__)].each { |f| require f }
 Dir[File.expand_path('../../models/users/*.rb', __FILE__)].each { |f| require f }
 Dir[File.expand_path('../../models/invitations/*.rb', __FILE__)].each { |f| require f }
+Dir[File.expand_path('../../models/affiliations/*.rb', __FILE__)].each { |f| require f }
 Dir[File.expand_path('../../api/*.rb', __FILE__)].each { |f| require f }
 
 Db::Connect.new

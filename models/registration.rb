@@ -7,7 +7,7 @@ class Registration
 
     Payment.create!({ user_id: user.id, organization_id: organization.id }.merge(params[:payment].to_h))
 
-    OrganizationAffiliation.create!({ user_id: user.id, organization_id: organization.id })
+    Affiliation::TYPES[:organization].constantize.create!({ user_id: user.id, organization_id: organization.id })
 
     { user: user }
   end
