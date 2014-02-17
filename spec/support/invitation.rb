@@ -4,15 +4,17 @@ shared_context "with organization, project, and members established" do
 
     org = Organization.create!(name: "TestOrg")
 
-    Affiliation.create!(user_id: user.id, organization_id: org.id)
+    Affiliation::TYPES[:organization].constantize.create!(user_id: user.id, organization_id: org.id)
 
     member = User::TYPES[:organization_member].constantize.create!(name: "johnny john", email: "alreadyamember@aol.com", password: 'password', password_confirmation: 'password')
 
-    Affiliation.create!(user_id: member.id, organization_id: org.id)
+    Affiliation::TYPES[:organization].constantize.create!(user_id: member.id, organization_id: org.id)
 
     project = Project.create!(name: "Team Tatanka", purpose: "this is the purpose", organization_id: org.id)
 
     client = User::TYPES[:client].constantize.create!(name: "client richardson", email: "alreadyaclient@gmail.com", password: 'password', password_confirmation: 'password')
+
+    Affiliation::TYPES[:project].constantize.create!(user_id: client.id, project_id: project.id)
   end
 
   after(:all) do

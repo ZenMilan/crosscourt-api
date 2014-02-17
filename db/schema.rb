@@ -17,8 +17,9 @@ ActiveRecord::Schema.define(version: 9) do
   enable_extension "plpgsql"
 
   create_table "access_tokens", force: true do |t|
-    t.string   "token",                     null: false
-    t.boolean  "available",  default: true
+    t.string   "token",                      null: false
+    t.string   "description"
+    t.boolean  "available",   default: true
     t.datetime "created_at"
     t.datetime "updated_at"
   end

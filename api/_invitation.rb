@@ -16,8 +16,13 @@ module Crosscourt
           invitation
         end
 
-        def check_affiliation(invitation_params)
-          ::Affiliation.where(user_id: invitee(invitation_params[:recipient_email]).try(:id), organization_id: invitation_params[:organization_id])
+        def check_affiliation(type, invitation_params)
+          case type
+          when 'member'
+            ::Affiliation.where(user_id: invitee(invitation_params[:recipient_email]).try(:id), organization_id: invitation_params[:organization_id])
+          when 'client'
+            ::Affiliation.where(user_id: invitee(invitation_params[:recipient_email]).try(:id), project_id: invitation_params[:project_id])
+          end
         end
 
         def invitee(email)
@@ -39,7 +44,7 @@ module Crosscourt
       post 'invite/member' do
         invitation = create_invitation(:member, params[:invitation])
 
-        error! "#{params[:invitation][:recipient_email]} is already a member of #{::Organization.find(params[:invitation][:organization_id]).name}", 401 unless check_affiliation(params[:invitation]).blank?
+        error! "#{params[:invitation][:recipient_email]} is already a member of #{::Organization.find(params[:invitation][:organization_id]).name}", 401 unless check_affiliation('member', params[:invitation]).blank?
 
         present :message, "an invitation was sent to #{invitation.recipient_email} to join #{::Organization.find(invitation.organization_id).name}"
         present :invitation, invitation, with: ::API::Entities::Invitation
@@ -55,7 +60,7 @@ module Crosscourt
       post 'invite/client' do
         invitation = create_invitation(:client, params[:invitation])
 
-        error! "#{params[:invitation][:recipient_email]} is already included on project #{::Project.find(params[:invitation][:project_id]).name}", 401 unless check_affiliation(params[:invitation]).blank?
+        error! "#{params[:invitation][:recipient_email]} is already included on project #{::Project.find(params[:invitation][:project_id]).name}", 401 unless check_affiliation('client', params[:invitation]).blank?
 
         present :message, "an invitation was sent to #{params[:invitation][:recipient_email]} to join project #{::Project.find(params[:invitation][:project_id]).name}"
         present :invitation, invitation, with: ::API::Entities::Invitation

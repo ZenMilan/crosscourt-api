@@ -2,6 +2,7 @@ class CreateAccessToken < ActiveRecord::Migration
   def change
     create_table :access_tokens do |t|
       t.string :token, null: false
+      t.string :description
       t.boolean :available, default: true
 
       t.timestamps

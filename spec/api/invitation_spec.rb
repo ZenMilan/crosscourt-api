@@ -113,7 +113,7 @@ describe Crosscourt::API do
 
         context 'without a recipient' do
 
-          let(:invitation_params) { { invitation: { recipient_email: "", project_id: 1 } } }
+          let(:invitation_params) { { invitation: { recipient_email: "", project_id: Project.last.id } } }
 
           it 'reports error message' do
             post '/api/invite/client', invitation_params
