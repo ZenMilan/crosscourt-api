@@ -101,7 +101,7 @@ describe Crosscourt::API do
 
         let(:invitation_params) { { invitation: { recipient_email: "alreadyaclient@gmail.com", project_id: Project.last.id } } }
 
-        it 'fails to create invitation', check: true do
+        it 'fails to create invitation' do
 
           post "api/invite/client", invitation_params
 
@@ -157,7 +157,7 @@ describe Crosscourt::API do
         end
 
         context 'with an incorrect invite token' do
-          it 'displays proper error', redeem: true do
+          it 'displays proper error' do
             get "/api/invitation/redeem/wrongabc"
 
             expect(last_response.body).to eq({ error: 'invalid invitation token'}.to_json)

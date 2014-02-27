@@ -53,7 +53,7 @@ module Crosscourt
       desc "Invite client to join project"
       params do
         group :invitation do
-          requires :recipient_email, type: String
+          requires :recipient_email, type: String, non_blank: true
           requires :project_id, non_blank: true
         end
       end
