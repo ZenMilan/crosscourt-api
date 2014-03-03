@@ -12,6 +12,7 @@ module Crosscourt
     prefix 'api'
     format :json
     default_format :json
+    content_type :json, "application/json; charset=utf-8"
 
     use Rack::Session::Cookie, secret: 'smokey'
 
@@ -25,5 +26,6 @@ module Crosscourt
     mount Crosscourt::Authentication::API
     mount Crosscourt::Invitation::API
     mount Crosscourt::Project::API
+    mount Crosscourt::GitHub::API
   end
 end

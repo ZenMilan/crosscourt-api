@@ -11,31 +11,34 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (4.0.2)
-      activesupport (= 4.0.2)
+    activemodel (4.0.3)
+      activesupport (= 4.0.3)
       builder (~> 3.1.0)
-    activerecord (4.0.2)
-      activemodel (= 4.0.2)
+    activerecord (4.0.3)
+      activemodel (= 4.0.3)
       activerecord-deprecated_finders (~> 1.0.2)
-      activesupport (= 4.0.2)
+      activesupport (= 4.0.3)
       arel (~> 4.0.0)
     activerecord-deprecated_finders (1.0.3)
-    activesupport (4.0.2)
+    activesupport (4.0.3)
       i18n (~> 0.6, >= 0.6.4)
       minitest (~> 4.2)
       multi_json (~> 1.3)
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
-    arel (4.0.1)
-    atomic (1.1.14)
+    addressable (2.3.5)
+    arel (4.0.2)
+    atomic (1.1.15)
     axiom-types (0.0.5)
       descendants_tracker (~> 0.0.1)
       ice_nine (~> 0.9)
-    bcrypt-ruby (3.1.2)
+    bcrypt (3.1.7)
+    bcrypt-ruby (3.1.5)
+      bcrypt (>= 3.1.3)
     builder (3.1.4)
-    byebug (2.5.0)
-      columnize (~> 0.3.6)
-      debugger-linecache (~> 1.2.0)
+    byebug (2.7.0)
+      columnize (~> 0.3)
+      debugger-linecache (~> 1.2)
     coderay (1.1.0)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
@@ -44,8 +47,10 @@ GEM
     debugger-linecache (1.2.0)
     descendants_tracker (0.0.3)
     diff-lcs (1.2.5)
-    dotenv (0.9.0)
+    dotenv (0.10.0)
     equalizer (0.0.9)
+    faraday (0.9.0)
+      multipart-post (>= 1.2, < 3)
     grape (0.6.1)
       activesupport
       builder
@@ -56,7 +61,7 @@ GEM
       rack-accept
       rack-mount
       virtus (>= 1.0.0)
-    grape-entity (0.3.0)
+    grape-entity (0.4.1)
       activesupport
       multi_json (>= 1.3.2)
     hashie (2.0.5)
@@ -67,13 +72,16 @@ GEM
     minitest (4.7.5)
     multi_json (1.8.4)
     multi_xml (0.5.5)
+    multipart-post (2.0.0)
+    octokit (2.7.1)
+      sawyer (~> 0.5.2)
     pg (0.17.1)
-    pry (0.9.12.4)
+    pry (0.9.12.6)
       coderay (~> 1.0)
       method_source (~> 0.8)
       slop (~> 3.4)
-    pry-byebug (1.2.1)
-      byebug (~> 2.2)
+    pry-byebug (1.3.2)
+      byebug (~> 2.7)
       pry (~> 0.9.12)
     rack (1.5.2)
     rack-accept (0.4.5)
@@ -93,9 +101,14 @@ GEM
     rspec-mocks (3.0.0.beta1)
       rspec-support (= 3.0.0.beta1)
     rspec-support (3.0.0.beta1)
+    sawyer (0.5.3)
+      addressable (~> 2.3.5)
+      faraday (~> 0.8, < 0.10)
+    shotgun (0.9)
+      rack (>= 1.0)
     slop (3.4.7)
-    thread_safe (0.1.3)
-      atomic
+    thread_safe (0.2.0)
+      atomic (>= 1.1.7, < 2)
     tzinfo (0.3.38)
     virtus (1.0.1)
       axiom-types (~> 0.0.5)
@@ -113,12 +126,15 @@ DEPENDENCIES
   bcrypt-ruby
   database_cleaner
   dotenv
+  faraday
   grape
   grape-entity
   json
+  octokit (~> 2.0)
   pg
   pry-byebug
   rack-test
   racksh
   rspec!
+  shotgun
   warden

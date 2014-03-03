@@ -3,7 +3,7 @@ module Crosscourt
     class API < Grape::API
       desc 'Simple uptime check'
       get :ping do
-        { response: 'pong' }
+        present :response, 'pong'
       end
     end
   end

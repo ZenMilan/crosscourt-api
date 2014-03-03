@@ -15,7 +15,7 @@
 - Rspec 3.0.0.beta1
 
 ### Dev Notes
-While developing indivdually, I tend to overwrite the database migrations :)
+While developing individually, I tend to overwrite the database migrations :)
 
 If so, use the following:
 
