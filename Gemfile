@@ -7,6 +7,7 @@ gem 'bcrypt-ruby'
 gem 'database_cleaner', group: :test
 gem 'dotenv', group: :development
 gem 'faraday'
+gem 'faraday_middleware'
 gem 'grape'
 gem 'grape-entity'
 gem 'json'
