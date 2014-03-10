@@ -111,7 +111,7 @@ GEM
     slop (3.4.7)
     thread_safe (0.2.0)
       atomic (>= 1.1.7, < 2)
-    tzinfo (0.3.38)
+    tzinfo (0.3.39)
     virtus (1.0.1)
       axiom-types (~> 0.0.5)
       coercible (~> 1.0)

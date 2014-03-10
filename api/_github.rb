@@ -6,27 +6,24 @@ module Crosscourt
       get 'github/callback' do
         session_code = request.params['code']
 
-        result = Faraday.post('https://github.com/login/oauth/access_token',
+        conn = Faraday.new(url: 'https://github.com') do |faraday|
+          faraday.request :url_encoded
+          faraday.response :json, :content_type => /\bjson$/
+          faraday.adapter Faraday.default_adapter
+        end
+
+        result = conn.post('/login/oauth/access_token',
           {
             client_id: ENV["GITHUB_CLIENTID"],
             client_secret: ENV["GITHUB_SECRET"],
             code: session_code
-          })
+          },
+            { 'Accept' => 'application/json' }
+          )
 
-        # result = HTTParty.post('https://github.com/login/oauth/access_token',
-        #   query: {
-        #     client_id: ENV["GITHUB_CLIENTID"],
-        #     client_secret: ENV["GITHUB_SECRET"],
-        #     code: session_code
-        #   }
-        # )
+        access_token = result.body["access_token"]
+        scopes = result.body["scope"].split(',')
 
-        access_token = CGI.parse(result.body)["access_token"].join
-        scopes = CGI.parse(result.body)["scope"].join.split(',')
-
-        # if scopes.include? 'repo'
-
-        binding.pry
       end
 
     end

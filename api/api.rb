@@ -14,7 +14,7 @@ module Crosscourt
     default_format :json
     content_type :json, "application/json; charset=utf-8"
 
-    use Rack::Session::Cookie, secret: 'smokey'
+    use Rack::Session::Cookie, secret: rand.to_s()
 
     use Warden::Manager do |manager|
       manager.default_strategies :password
