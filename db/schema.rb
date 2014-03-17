@@ -93,6 +93,7 @@ ActiveRecord::Schema.define(version: 9) do
     t.string   "type",            limit: 50, null: false
     t.string   "name",                       null: false
     t.string   "email",                      null: false
+    t.string   "gh_access_token"
     t.string   "password_digest"
     t.integer  "invitation_id"
     t.datetime "created_at"

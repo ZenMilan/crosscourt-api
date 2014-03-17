@@ -2,13 +2,13 @@ module Crosscourt
   module GitHub
     class API < Grape::API
 
-      desc "Authenticate with GitHub"
+      desc "GitHub Authentication Callback"
       get 'github/callback' do
         session_code = request.params['code']
 
         conn = Faraday.new(url: 'https://github.com') do |faraday|
           faraday.request :url_encoded
-          faraday.response :json, :content_type => /\bjson$/
+          faraday.response :json, content_type: /\bjson$/
           faraday.adapter Faraday.default_adapter
         end
 
@@ -21,9 +21,10 @@ module Crosscourt
             { 'Accept' => 'application/json' }
           )
 
-        access_token = result.body["access_token"]
         scopes = result.body["scope"].split(',')
+        access_token = result.body["access_token"]
 
+        ::GitHubAuthenticator.new(env['warden'].user.id, access_token: access_token, scopes: scopes)
       end
 
     end
