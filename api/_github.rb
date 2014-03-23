@@ -21,7 +21,10 @@ module Crosscourt
             { 'Accept' => 'application/json' }
           )
 
-        ::GitHubAuthenticator.new(env['warden'].user.id, result.body)
+        gh_auth = ::GitHubAuthenticator.new(env['warden'].user.id, result.body)
+        result = gh_auth.authenticate!
+
+        result.each { |key, message| present key.to_sym, message }
       end
 
     end

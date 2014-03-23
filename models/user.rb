@@ -18,4 +18,8 @@ class User < ActiveRecord::Base
 
   validates :email, uniqueness: true
 
+  def gh_client
+    @gh_client ||= Octokit::Client.new(access_token: gh_access_token)
+  end
+
 end

@@ -11,7 +11,7 @@ gem 'faraday_middleware'
 gem 'grape'
 gem 'grape-entity'
 gem 'json'
-gem 'octokit', '~> 2.0'
+gem 'octokit'
 gem 'pg'
 gem 'pry-byebug', group: :development
 gem 'racksh', group: :development, require: false
