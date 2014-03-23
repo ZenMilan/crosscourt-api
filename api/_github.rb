@@ -21,10 +21,7 @@ module Crosscourt
             { 'Accept' => 'application/json' }
           )
 
-        scopes = result.body["scope"].split(',')
-        access_token = result.body["access_token"]
-
-        ::GitHubAuthenticator.new(env['warden'].user.id, access_token: access_token, scopes: scopes)
+        ::GitHubAuthenticator.new(env['warden'].user.id, result.body)
       end
 
     end
