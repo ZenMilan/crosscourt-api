@@ -12,7 +12,7 @@
 
 ### Testing
 
-- Rspec 3.0.0.beta1
+- Rspec 3.0.0.beta2
 
 ### Dev Notes
 While developing individually, I tend to overwrite the database migrations :)
