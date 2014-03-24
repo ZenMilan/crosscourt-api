@@ -29,9 +29,9 @@ describe Crosscourt::API do
 
       context 'with valid response from Github' do
 
-        let!(:stub) { stub_request("9ac430acbe98cc857e3f9a6d0136670a332e41f1", "repo") }
+        let(:stub) { stub_request("9ac430acbe98cc857e3f9a6d0136670a332e41f1", "repo") }
 
-        let!(:response) { JSON.parse(stub.post('https://github.com/login/oauth/access_token').body)
+        let(:response) { JSON.parse(stub.post('https://github.com/login/oauth/access_token').body)
         }
 
         describe GitHubAuthenticator do
@@ -62,9 +62,9 @@ describe Crosscourt::API do
 
       context 'with invalid response from Github' do
 
-        let!(:stub) { stub_request("9ac430acbe98cc857e3f9a6d0136670a332e41f1", "nothing") }
+        let(:stub) { stub_request("9ac430acbe98cc857e3f9a6d0136670a332e41f1", "nothing") }
 
-        let!(:response) { JSON.parse(stub.post('https://github.com/login/oauth/access_token').body)
+        let(:response) { JSON.parse(stub.post('https://github.com/login/oauth/access_token').body)
         }
 
         describe GitHubAuthenticator do

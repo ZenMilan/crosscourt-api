@@ -76,8 +76,7 @@ describe Crosscourt::API do
 
         it 'registered user is the organization#owner' do
           post '/api/register', registration_params
-
-          expect(User.find(JSON.parse(last_response.body)['current_user']['id']).organizations.last.owner.name).to eq('kevin')
+  expect(User.find(JSON.parse(last_response.body)['current_user']['id']).organizations.last.owner.name).to eq('kevin')
         end
 
         it 'increments user count by 1' do

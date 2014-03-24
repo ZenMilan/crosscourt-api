@@ -13,9 +13,9 @@ describe Crosscourt::API do
 
       context 'with proper parameters' do
 
-
         it 'creates a new project' do
-          pending
+          pending("needs to be implemented")
+          fail
         end
       end
     end
