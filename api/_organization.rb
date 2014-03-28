@@ -12,7 +12,7 @@ module Crosscourt
           end
         end
         post do
-          # Organization.create!(params[:organization])
+          # Organization.create!(params[:organization].to_h)
           # { status: 'successfully created project' }
         end
 
