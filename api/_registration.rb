@@ -35,7 +35,7 @@ module Crosscourt
       end
 
       post 'register' do
-        registration = ::Registration.new.register!(params[:registration])
+        registration = ::Registration.new(params[:registration]).register!
         env['warden'].set_user(registration[:user])
 
         present :message, 'account registered'
