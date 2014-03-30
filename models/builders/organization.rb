@@ -1,8 +1,8 @@
 class OrganizationBuilder
+  
   def initialize(params)
-    # @org_params = params[:organization][:org_details]
-    # @user = User.find(params[:organization][:user_details].id)
-    puts params.to_h
+    @org_params = params[:org_details].to_h
+    @user = User.find(params[:user_details].id)
   end
 
   def build!

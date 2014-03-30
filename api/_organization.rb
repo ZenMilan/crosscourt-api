@@ -17,8 +17,8 @@ module Crosscourt
           end
         end
         post do
-          ::OrganizationBuilder.new(params[:organization].to_h)#.build!
-          { message: "successfully created #{params[:organization][:name]}" }
+          ::OrganizationBuilder.new(params[:organization]).build!
+          { message: "successfully created #{params[:organization][:org_details].name}" }
         end
 
         desc "Update organization"
@@ -28,7 +28,7 @@ module Crosscourt
             optional :name, type: String, desc: "Name of organization"
           end
         end
-        patch :id do  Organization.find(params[:organization][:id]).update!(params[:organization].to_h)
+        patch :id do Organization.find(params[:organization][:id]).update!(params[:organization].to_h)
         end
 
         desc "Destroy organization"

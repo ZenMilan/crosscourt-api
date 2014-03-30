@@ -14,7 +14,7 @@ describe Crosscourt::API do
 
       context 'with valid parameters' do
 
-        let(:organization_params) {
+        let!(:organization_params) {
           {
             organization:
               {
@@ -26,9 +26,21 @@ describe Crosscourt::API do
           }
         }
 
-        it 'properly creates an organization' do
+        before(:each) do
           post "/api/organizations", organization_params
+        end
+
+        after(:each) do
+          Organization.delete_all
+          Affiliation.delete_all
+        end
+
+        it 'successfully creates an organization' do
           expect(last_response.body).to eq({ message: 'successfully created Tatanka Bull Corp.' }.to_json)
+        end
+
+        it 'adds current user as a member of organization' do
+          expect(Organization.last.members).to include(User.last)
         end
 
       end
