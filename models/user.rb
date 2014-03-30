@@ -22,4 +22,8 @@ class User < ActiveRecord::Base
     @gh_client ||= Octokit::Client.new(access_token: gh_access_token)
   end
 
+  def build_org_affiliation!(org)
+    Affiliation::TYPES[:organization].constantize.create!(user_id: id, organization_id: org.id)
+  end
+
 end

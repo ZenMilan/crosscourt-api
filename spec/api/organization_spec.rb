@@ -8,7 +8,7 @@ describe Crosscourt::API do
 
   describe 'Organizations' do
 
-    describe 'POST /api/organization' do
+    describe 'POST /api/organizations' do
 
       include_context "with logged in user"
 
@@ -18,8 +18,10 @@ describe Crosscourt::API do
           {
             organization:
               {
-                name: "Tatanka Bull Corp.",
-                user: { id: User.last.id }
+                org_details:
+                  { name: "Tatanka Bull Corp." },
+                user_details:
+                  { id: User.last.id }
               }
           }
         }

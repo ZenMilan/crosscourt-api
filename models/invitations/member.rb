@@ -1,1 +1,0 @@
-class MemberInvitation < Invitation; end

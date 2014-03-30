@@ -1,1 +1,0 @@
-class ClientInvitation < Invitation; end

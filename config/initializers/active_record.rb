@@ -5,7 +5,7 @@ module Db
 
       ActiveRecord::Base.default_timezone = 'Eastern Time (US & Canada)'
       ActiveRecord::Base.establish_connection(dbconfig)
-      ActiveRecord::Base.logger = Logger.new(STDERR)
+      # ActiveRecord::Base.logger = Logger.new(STDERR)
     end
 
     def self.disconnect!
