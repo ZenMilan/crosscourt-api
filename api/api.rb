@@ -1,32 +1,38 @@
 module Crosscourt
-  class AuthFailure
-    def self.call(env)
-      message = env['warden'].message.present? ? env['warden'].message : env['warden.options'][:error]
-
-      [401, {'Content-Type' => 'application/json'}, [{error: message}.to_json]]
-    end
-  end
 
   class API < Grape::API
+    # Header/Routing Information
     version 'beta', using: :header, vendor: 'crosscourt'
     prefix 'api'
     format :json
     default_format :json
     content_type :json, "application/json; charset=utf-8"
 
+    # Cookie Secret
     use Rack::Session::Cookie, secret: rand.to_s()
 
+    # Warden Initialization
     use Warden::Manager do |manager|
       manager.default_strategies :password
-      manager.failure_app = Crosscourt::AuthFailure
+      manager.failure_app = Warden::AuthFailure
     end
 
+    # Error Handling
+    rescue_from :all
+    rescue_from Grape::Exceptions::ValidationErrors do |e|
+      Rack::Response.new({
+        error: e.message.split(',')[0]
+      }.to_json, e.status)
+    end
+
+    # API "Modules"
     mount Crosscourt::Status::API
     mount Crosscourt::Registration::API
     mount Crosscourt::Authentication::API
     mount Crosscourt::Invitation::API
     mount Crosscourt::Project::API
     mount Crosscourt::Organization::API
+    # mount Crosscourt::Project::API
     mount Crosscourt::GitHub::API
   end
 end

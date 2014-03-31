@@ -1,7 +1,6 @@
 module Crosscourt
   module Project
     class API < Grape::API
-      rescue_from :all
 
       resource :project do
         desc "Create a new project"

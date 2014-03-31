@@ -1,7 +1,6 @@
 module Crosscourt
   module Organization
     class API < Grape::API
-      rescue_from :all
 
       resource :organizations do
 

@@ -1,12 +1,6 @@
 module Crosscourt
   module Registration
     class API < Grape::API
-      rescue_from :all
-      rescue_from Grape::Exceptions::ValidationErrors do |e|
-        Rack::Response.new({
-          error: e.message.split(',')[0]
-        }.to_json, e.status)
-      end
 
       desc "Gain access to fancy beta account!"
       get 'registration/beta/:token' do

@@ -11,7 +11,7 @@ class OrganizationBuilder
 
   private
 
-  def build_affiliation(org)
+  def build_affiliation(organization)
     @user.build_org_affiliation!(organization)
   end
 
