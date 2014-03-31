@@ -27,7 +27,6 @@ module Crosscourt
           end
         end
       end
-
       post 'register' do
         registration = ::Registration.new(params[:registration]).register!
         env['warden'].set_user(registration[:user])
@@ -35,6 +34,7 @@ module Crosscourt
         present :message, 'account registered'
         present :current_user, env['warden'].user, with: ::API::Entities::User
       end
+
     end
   end
 end
