@@ -8,23 +8,35 @@ describe Crosscourt::API do
 
   describe 'Organizations' do
 
-    describe 'POST /api/organizations' do
+    include_context "with logged in user"
 
-      include_context "with logged in user"
+    context 'with valid parameters' do
 
-      context 'with valid parameters' do
-
-        let!(:organization_params) {
-          {
-            organization:
-              {
-                org_details:
-                  { name: "Tatanka Bull Corp." },
-                user_details:
-                  { id: User.last.id }
-              }
-          }
+      let!(:organization_params) {
+        {
+          organization:
+            {
+              org_details:
+                { name: "Tatanka Bull Corp." },
+              user_details:
+                { id: User.last.id }
+            }
         }
+      }
+
+      describe OrganizationBuilder do
+
+        subject { OrganizationBuilder.new(Hashie::Mash.new(organization_params[:organization])) }
+
+        it { is_expected.to respond_to(:build!) }
+
+        it "initialize new organization in an instance variable" do
+          expect(subject.instance_variable_get(:@organization).name).to eq "Tatanka Bull Corp."
+        end
+
+      end
+
+      describe 'POST /api/organizations' do
 
         before(:each) do
           post "/api/organizations", organization_params
@@ -44,12 +56,7 @@ describe Crosscourt::API do
         end
 
       end
+
     end
   end
 end
-
-          # expect(JSON.parse(last_response.body)['message']).to eq 'an invitation was sent to notamemberyet@aol.com to join TestOrg'
-          #
-          # expect(JSON.parse(last_response.body)['invitation']['recipient_email']).to eq('notamemberyet@aol.com')
-          #
-          # expect(Invitation.last.sender.email).to eq('pruett.kevin@gmail.com')
