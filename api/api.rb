@@ -32,7 +32,7 @@ module Crosscourt
     mount Crosscourt::Invitation::API
     mount Crosscourt::Project::API
     mount Crosscourt::Organization::API
-    # mount Crosscourt::Project::API
+    mount Crosscourt::Project::API
     mount Crosscourt::GitHub::API
   end
 end
