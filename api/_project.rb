@@ -4,14 +4,15 @@ module Crosscourt
 
       desc "Create new project"
       params do
-        # group :project do
-        #   requires :name, type: String, non_blank: true, desc: "Name of organization."
-        #   end
-        # end
+        group :project do
+          requires :name, type: String, non_blank: true, desc: "Name of project."
+          requires :purpose, type: String, non_blank: true, desc: "Purpose of project"
+          end
+        end
       end
       post '/organizations/:id/projects' do
-        # ::OrganizationBuilder.new(params[:organization]).build!
-        # { message: "successfully created #{params[:organization][:org_details].name}" }
+        ::Project.create!(params[:project].to_h)
+        { message: "successfully created project #{params[:project][:name]}" }
       end
 
       desc "Update project"
@@ -20,8 +21,8 @@ module Crosscourt
         #   optional :name, type: String, non_blank: true, desc: "Name of organization"
         end
       end
-      patch 'organizations/:id/project/:id' do
-        #  ::Organization.find(params[:id]).update!(params[:organization].to_h)
+      patch 'organizations/:org_id/project/:id' do
+         ::Project.find(params[:id]).update!(params[:organization].to_h)
         # { message: "successfully updated organization" }
       end
 
