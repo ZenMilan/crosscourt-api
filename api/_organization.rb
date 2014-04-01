@@ -24,16 +24,13 @@ module Crosscourt
           optional :name, type: String, non_blank: true, desc: "Name of organization"
         end
       end
-      patch 'organizations/:id' do
+      patch 'organization/:id' do
          ::Organization.find(params[:id]).update!(params[:organization].to_h)
         { message: "successfully updated organization" }
       end
 
       desc "Destroy organization"
-      params do
-        requires :id, type: Integer, desc: "Organization Id."
-      end
-      delete 'organizations/:id' do
+      delete 'organization/:id' do
         ::Organization.find(params[:id]).destroy!
         { message: "organization removed" }
       end

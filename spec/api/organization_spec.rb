@@ -85,7 +85,7 @@ describe Crosscourt::API do
       end
     end
 
-    describe 'PATCH /api/organizations/:id' do
+    describe 'PATCH /api/organization/:id' do
 
       before(:each) do
         create_test_org "Patchy Org"
@@ -96,20 +96,20 @@ describe Crosscourt::API do
         Affiliation.delete_all
       end
 
-      it 'returns success message upon' do
-        patch "/api/organizations/#{Organization.last.id}", { organization: { name: "Foo" } }
+      it 'returns success message' do
+        patch "/api/organization/#{Organization.last.id}", { organization: { name: "Foo" } }
 
         expect(last_response.body).to eq({ message: 'successfully updated organization' }.to_json)
       end
 
       it 'updates name of organization' do
-        patch "/api/organizations/#{Organization.last.id}", { organization: { name: "Updated Org Homie" } }
+        patch "/api/organization/#{Organization.last.id}", { organization: { name: "Updated Org Homie" } }
 
         expect(Organization.last.name).to eq("Updated Org Homie")
       end
 
       it 'fails to update when name is blank' do
-        patch "/api/organizations/#{Organization.last.id}", { organization: { name: "" } }
+        patch "/api/organization/#{Organization.last.id}", { organization: { name: "" } }
 
         expect(last_response.body).to eq({ error: "Name was left blank" }.to_json)
         expect(last_response.status).to eq 400
@@ -117,7 +117,7 @@ describe Crosscourt::API do
 
     end
 
-    describe 'DELETE /api/organizations/:id' do
+    describe 'DELETE /api/organization/:id' do
       before(:each) do
         create_test_org "Delete This Org"
       end
@@ -127,10 +127,10 @@ describe Crosscourt::API do
         Affiliation.delete_all
       end
 
-      it 'successfully deletes organization', delete: true do
+      it 'successfully deletes organization' do
         expect(Organization.count).to eq 1
         expect(Organization.last.name).to eq "Delete This Org"
-        delete "api/organizations/#{Organization.last.id}"
+        delete "api/organization/#{Organization.last.id}"
         expect(last_response.body).to eq({ message: "organization removed" }.to_json)
         expect(Organization.count).to eq 0
       end

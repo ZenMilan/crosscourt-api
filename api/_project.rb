@@ -7,32 +7,30 @@ module Crosscourt
         group :project do
           requires :name, type: String, non_blank: true, desc: "Name of project."
           requires :purpose, type: String, non_blank: true, desc: "Purpose of project"
-          end
+          requires :organization_id, type: Integer, non_blank: true, desc: "Organization Id"
         end
       end
-      post '/organizations/:id/projects' do
+      post 'projects' do
         ::Project.create!(params[:project].to_h)
-        { message: "successfully created project #{params[:project][:name]}" }
+        { message: "successfully created #{params[:project][:name]}" }
       end
 
       desc "Update project"
       params do
-        # group :organization do
-        #   optional :name, type: String, non_blank: true, desc: "Name of organization"
+        group :project do
+          optional :name, type: String, non_blank: true, desc: "Name of project"
+          optional :purpose, type: String, non_blank: true, desc: "Purpose of project"
         end
       end
-      patch 'organizations/:org_id/project/:id' do
-         ::Project.find(params[:id]).update!(params[:organization].to_h)
-        # { message: "successfully updated organization" }
+      patch 'project/:id' do
+        ::Project.find(params[:id]).update!(params[:project].to_h)
+        { message: "successfully updated project" }
       end
 
       desc "Destroy organization"
-      params do
-        # requires :id, type: Integer, desc: "Organization Id."
-      end
-      delete 'organizations/:id/projects/:id' do
-        # ::Organization.find(params[:id]).destroy!
-        # { message: "organization removed" }
+      delete 'project/:id' do
+        ::Project.find(params[:id]).destroy!
+        { message: "project removed" }
       end
 
     end
