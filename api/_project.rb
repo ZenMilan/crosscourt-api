@@ -2,6 +2,16 @@ module Crosscourt
   module Project
     class API < Grape::API
 
+      desc "Show all projects of an organization"
+      # params do
+      #   group :project do
+      #     #
+      #   end
+      # end
+      get 'projects' do
+        [{ id: 1, name: "hello", purpose: "sweet" }, { id: 2, name: "goodbye", purpose: "da bes" }]
+      end
+
       desc "Create new project"
       params do
         group :project do
