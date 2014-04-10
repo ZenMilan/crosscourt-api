@@ -1,5 +1,7 @@
 # Crosscourt API
 
+[![Build Status](https://travis-ci.org/pruett/crosscourt-api.svg?branch=develop)](https://travis-ci.org/pruett/crosscourt-api)
+
 ### Stack
 
 - [Grape](https://github.com/intridea/grape)
