@@ -4,7 +4,7 @@ test:
   database: cc_test
   pool: 5
   username: pruett
-  password: smokey
+  password:
 
 development:
   adapter: postgresql
@@ -12,7 +12,7 @@ development:
   database: cc_development
   pool: 5
   username: pruett
-  password: smokey
+  password:
 
 production:
   adapter: postgresql
@@ -20,4 +20,4 @@ production:
   database: cc_production
   pool: 5
   username: pruett
-  password: smokey
+  password: 
