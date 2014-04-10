@@ -2,4 +2,4 @@ language: ruby
 rvm:
   - 2.1.0
 
-script: bundle exec rspec .
+script: RAKE_ENV=test rake db:drop db:create db:migrate db:test:prepare && bundle exec rspec .
