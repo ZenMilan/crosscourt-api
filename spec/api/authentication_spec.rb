@@ -68,10 +68,11 @@ describe Crosscourt::API do
       context 'when logged in' do
         include_context "with logged in user"
 
-        it 'outputs current user info' do
+        it 'outputs current user info', org: true do
 
           get '/api/current_user'
           expect(JSON.parse(last_response.body)['current_user']['email']).to eq('pruett.kevin@gmail.com')
+          expect(JSON.parse(last_response.body)['current_user']['organizations']).to be_empty
         end
 
       end
@@ -82,7 +83,7 @@ describe Crosscourt::API do
         it 'includes nested organization information', org: true do
           post '/api/login', email: 'pruett.kevin@gmail.com', password: 'password'
           get '/api/current_user'
-          puts JSON.parse(last_response.body)['current_user']['organizations'].first
+          expect(JSON.parse(last_response.body)['current_user']['organizations'].length).to eq(1)
         end
 
       end
