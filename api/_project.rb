@@ -2,7 +2,7 @@ module Crosscourt
   module Project
     class API < Grape::API
 
-      desc "Show all projects of an organization"
+      desc "Show all projects belonging to an organization"
       # params do
       #   group :project do
       #     #

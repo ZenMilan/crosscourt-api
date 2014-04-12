@@ -1,7 +1,7 @@
 module API
   module Entities
     class User < Grape::Entity
-      expose :id, :name, :email
+      expose :id, :name, :email, :organizations
     end
 
     class Invitation < Grape::Entity
