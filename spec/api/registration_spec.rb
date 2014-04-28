@@ -51,7 +51,7 @@ describe Crosscourt::API do
             {
               user: { name: "kevin", email: "pruett.kevin@gmail.com", password: "password", password_confirmation: "password" },
               organization: { name: "Registration Organization!" },
-              payment: { payment_details: "VISA" }
+              payment: { details: "VISA" }
             }
           }
         }
@@ -94,7 +94,7 @@ describe Crosscourt::API do
             {
               user: { name: "  ", email: "pruett.kevin@gmail.com", password: "password", password_confirmation: "" },
               organization: { name: "Registration Organization!" },
-              payment: { payment_details: "VISA" }
+              payment: { details: "VISA" }
             }
           }
         }
@@ -114,7 +114,7 @@ describe Crosscourt::API do
             {
               user: { name: "kevin", email: "pruett.kevin@gmail.com", password: "password", password_confirmation: "" },
               organization: { name: "Registration Organization!" },
-              payment: { payment_details: "VISA" }
+              payment: { details: "VISA" }
             }
           }
         }
@@ -134,7 +134,7 @@ describe Crosscourt::API do
             {
               user: { name: "kevin", email: "pruett.kevin@gmail.com", password: "password", password_confirmation: "wrongpassword" },
               organization: { name: "Registration Organization!" },
-              payment: { payment_details: "VISA" }
+              payment: { details: "VISA" }
             }
           }
         }
@@ -154,7 +154,7 @@ describe Crosscourt::API do
             {
               user: { name: "kevin", email: "pruett.kevin@gmail.com", password: "password", password_confirmation: "password" },
               organization: { name: "" },
-              payment: { payment_details: "VISA" }
+              payment: { details: "VISA" }
             }
           }
         }
@@ -175,7 +175,7 @@ describe Crosscourt::API do
             {
               user: { name: "kevin", email: "pruett.kevin@gmail.com", password: "password", password_confirmation: "password" },
               organization: { name: "another org" },
-              payment: { payment_details: "VISA" }
+              payment: { details: "VISA" }
             }
           }
         }

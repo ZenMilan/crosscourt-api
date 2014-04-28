@@ -23,7 +23,7 @@ module Crosscourt
             requires :name, type: String, non_blank: true
           end
           group :payment do
-            requires :payment_details, type: String, non_blank: true
+            requires :details, type: String, non_blank: true
           end
         end
       end

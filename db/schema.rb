@@ -67,7 +67,7 @@ ActiveRecord::Schema.define(version: 9) do
   create_table "payments", force: true do |t|
     t.integer  "organization_id"
     t.integer  "user_id"
-    t.string   "payment_details"
+    t.string   "details"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
