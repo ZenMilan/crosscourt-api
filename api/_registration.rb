@@ -12,17 +12,17 @@ module Crosscourt
 
       desc "Register new account"
       params do
-        group :registration do
-          group :user do
+        group :registration, type: Hash do
+          group :user, type: Hash do
             requires :name, type: String, non_blank: true
             requires :email, type: String, non_blank: true
             requires :password, type: String, non_blank: true
             requires :password_confirmation, type: String, non_blank: true
           end
-          group :organization do
+          group :organization, type: Hash do
             requires :name, type: String, non_blank: true
           end
-          group :payment do
+          group :payment, type: Hash do
             requires :details, type: String, non_blank: true
           end
         end

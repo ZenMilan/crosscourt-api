@@ -56,7 +56,7 @@ describe Crosscourt::API do
           }
         }
 
-        it 'prints success message' do
+        it 'prints success message', debug: true do
           post '/api/register', registration_params
 
           expect(JSON.parse(last_response.body)['message']).to eq('account registered')

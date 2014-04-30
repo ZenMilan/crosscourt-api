@@ -14,7 +14,7 @@ module Crosscourt
 
       desc "Create new project"
       params do
-        group :project do
+        group :project, type: Hash do
           requires :name, type: String, non_blank: true, desc: "Name of project."
           requires :purpose, type: String, non_blank: true, desc: "Purpose of project"
           requires :organization_id, type: Integer, non_blank: true, desc: "Organization Id"
@@ -27,7 +27,7 @@ module Crosscourt
 
       desc "Update project"
       params do
-        group :project do
+        group :project, type: Hash do
           optional :name, type: String, non_blank: true, desc: "Name of project"
           optional :purpose, type: String, non_blank: true, desc: "Purpose of project"
         end

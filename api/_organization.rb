@@ -4,11 +4,11 @@ module Crosscourt
 
       desc "Create new organziation"
       params do
-        group :organization do
-          group :org_details do
+        group :organization, type: Hash do
+          group :org_details, type: Hash do
             requires :name, type: String, non_blank: true, desc: "Name of organization."
           end
-          group :user_details do
+          group :user_details, type: Hash do
             requires :id, type: Integer, desc: "Current user's id."
           end
         end
@@ -20,7 +20,7 @@ module Crosscourt
 
       desc "Update organization"
       params do
-        group :organization do
+        group :organization, type: Hash do
           optional :name, type: String, non_blank: true, desc: "Name of organization"
         end
       end
