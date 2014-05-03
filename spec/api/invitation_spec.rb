@@ -12,7 +12,7 @@ describe Crosscourt::API do
 
       include_context "with organization, project, and members established"
 
-      before(:all) do
+      before(:each) do
         post '/api/login', email: 'pruett.kevin@gmail.com', password: 'password'
       end
 
@@ -77,7 +77,7 @@ describe Crosscourt::API do
 
       include_context "with organization, project, and members established"
 
-      before(:all) do
+      before(:each) do
         post '/api/login', email: 'pruett.kevin@gmail.com', password: 'password'
       end
 

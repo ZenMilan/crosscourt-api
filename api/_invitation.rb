@@ -32,7 +32,7 @@ module Crosscourt
       params do
         group :invitation, type: Hash do
           requires :recipient_email, type: String, non_blank: true
-          requires :organization_id, type: Integer, non_blank: true
+          requires :organization_id, non_blank: true
         end
       end
       post 'invite/member' do
@@ -48,7 +48,7 @@ module Crosscourt
       params do
         group :invitation, type: Hash do
           requires :recipient_email, type: String, non_blank: true
-          requires :project_id, type: Integer, non_blank: true
+          requires :project_id, non_blank: true
         end
       end
       post 'invite/client' do
