@@ -17,6 +17,7 @@ gem 'pry-byebug', group: :development
 gem 'rack-cors', require: 'rack/cors'
 gem 'racksh', group: :development, require: false
 gem 'rack-test', group: :test, require: 'rack/test'
+gem 'rake', group: :test, require: false
 gem 'rspec', group: :test, git: "https://github.com/rspec/rspec.git", tag: 'v3.0.0.beta2'
 gem 'shotgun', group: :development, require: false
 gem 'warden'
