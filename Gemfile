@@ -1,9 +1,9 @@
 source 'https://rubygems.org'
 
-ruby "2.1.1"
+ruby "2.1.2"
 
 gem 'activerecord', '~> 4.0.1', require: 'active_record'
-gem 'bcrypt-ruby'
+gem 'bcrypt'
 gem 'database_cleaner', group: :test
 gem 'dotenv', group: :development
 gem 'faraday'
