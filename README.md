@@ -5,7 +5,11 @@
 ## Set Up
 
 * Install Ruby version 2.1.2
+* Install bundler if you need to
+  * `gem install bundler`
+* Run bundle
+  * `bundle`
 * Wipe / Rebuild DB
   * `RAKE_ENV=test rake db:drop db:create db:migrate db:test:prepare`
-* run `bundle`
-* run `bundle exec rspec .` ensuring all tests are passing
+* Run Rspec
+  * `bundle exec rspec .`
