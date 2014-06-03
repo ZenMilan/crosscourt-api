@@ -6,8 +6,8 @@ gem 'activerecord', '~> 4.0.1', require: 'active_record'
 gem 'bcrypt'
 gem 'database_cleaner', group: :test
 gem 'dotenv', group: :development
-gem 'faraday'
-gem 'faraday_middleware'
+gem 'faraday', group: :test
+gem 'faraday_middleware', group: :test
 gem 'grape'
 gem 'grape-entity'
 gem 'json'
