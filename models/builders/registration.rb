@@ -1,6 +1,7 @@
 class Registration
 
   def initialize(params)
+    binding.pry
     @params = params
   end
 

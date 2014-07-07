@@ -6,7 +6,7 @@ module Crosscourt
     prefix 'api'
     format :json
     default_format :json
-    content_type :json, "application/json; charset=utf-8"
+    # content_type :json, "application/json; charset=utf-8"
 
     # Cookie Secret
     use Rack::Session::Cookie, secret: rand.to_s()

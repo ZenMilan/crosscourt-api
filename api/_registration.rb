@@ -2,7 +2,7 @@ module Crosscourt
   module Registration
     class API < Grape::API
 
-      desc "Gain access to fancy beta account!"
+      desc "Gain access to exclusive beta account!"
       get 'registration/beta/:token' do
         token = ::AccessToken.where(token: params[:token]).first
         error! "invalid token", 401 unless token and token.available?
@@ -14,10 +14,10 @@ module Crosscourt
       params do
         group :registration, type: Hash do
           group :user, type: Hash do
-            requires :name, type: String, non_blank: true
+            requires :fname, type: String, non_blank: true
+            requires :lname, type: String, non_blank: true
             requires :email, type: String, non_blank: true
             requires :password, type: String, non_blank: true
-            requires :password_confirmation, type: String, non_blank: true
           end
           group :organization, type: Hash do
             requires :name, type: String, non_blank: true

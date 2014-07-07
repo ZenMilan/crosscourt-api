@@ -91,7 +91,8 @@ ActiveRecord::Schema.define(version: 9) do
 
   create_table "users", force: true do |t|
     t.string   "type",            limit: 50, null: false
-    t.string   "name",                       null: false
+    t.string   "fname",                      null: false
+    t.string   "lname",                      null: false
     t.string   "email",                      null: false
     t.string   "gh_access_token"
     t.string   "password_digest"

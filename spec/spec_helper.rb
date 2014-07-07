@@ -1,5 +1,6 @@
 ENV["RACK_ENV"] ||= 'test'
 
+puts ENV["RACK_ENV"]
 require File.expand_path('../../config/environment', __FILE__)
 
 Dir[File.expand_path('../support/*.rb', __FILE__)].sort.each { |f| require f }
