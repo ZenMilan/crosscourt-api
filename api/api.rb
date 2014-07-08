@@ -6,7 +6,6 @@ module Crosscourt
     prefix 'api'
     format :json
     default_format :json
-    # content_type :json, "application/json; charset=utf-8"
 
     # Cookie Secret
     use Rack::Session::Cookie, secret: rand.to_s()
@@ -20,8 +19,11 @@ module Crosscourt
     # Error Handling
     rescue_from :all
     rescue_from Grape::Exceptions::ValidationErrors do |e|
+      error = e.as_json.first
       Rack::Response.new({
-        error: e.message.split(',')[0]
+        name: error.first,
+        label: error.first.scan(/[^\[\]]+/i).last.humanize,
+        msg: error.last
       }.to_json, e.status)
     end
 
