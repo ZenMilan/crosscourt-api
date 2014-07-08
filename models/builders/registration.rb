@@ -16,6 +16,10 @@ class Registration
   private
 
   def set_user!
+    unless @params[:user].include? :password_confirmation
+      password = @params[:user][:password]
+      @params[:user][:password_confirmation] = password
+    end
     User::TYPES[:organization_leader].constantize.create!(@params[:user].to_h)
   end
 
