@@ -3,7 +3,7 @@ class Organization < ActiveRecord::Base
   has_many :organization_affiliations
   has_many :members, through: :organization_affiliations, class_name: 'User', source: :user
 
-  has_one :payment
+  has_one :payment, inverse_of: :organization
   has_many :projects
 
   validates :name, presence: true

@@ -13,7 +13,8 @@ class User < ActiveRecord::Base
   has_many :project_affiliations
   has_many :projects, through: :project_affiliations
 
-  has_many :payments
+  has_many :payments, inverse_of: :user
+
   has_secure_password
 
   validates :first_name, presence: true
