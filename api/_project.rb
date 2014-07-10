@@ -2,22 +2,12 @@ module Crosscourt
   module Project
     class API < Grape::API
 
-      desc "Show all projects belonging to an organization"
-      # params do
-      #   group :project do
-      #     #
-      #   end
-      # end
-      get 'projects' do
-        [{ id: 1, name: "hello", purpose: "sweet" }, { id: 2, name: "goodbye", purpose: "da bes" }]
-      end
-
       desc "Create new project"
       params do
         group :project, type: Hash do
-          requires :name, type: String, non_blank: true, desc: "Name of project."
-          requires :purpose, type: String, non_blank: true, desc: "Purpose of project"
-          requires :organization_id, type: Integer, non_blank: true, desc: "Organization Id"
+          requires :name, type: String
+          requires :purpose, type: String
+          requires :organization_id, type: Integer
         end
       end
       post 'projects' do
@@ -28,8 +18,8 @@ module Crosscourt
       desc "Update project"
       params do
         group :project, type: Hash do
-          optional :name, type: String, non_blank: true, desc: "Name of project"
-          optional :purpose, type: String, non_blank: true, desc: "Purpose of project"
+          optional :name, type: String
+          optional :purpose, type: String
         end
       end
       patch 'project/:id' do

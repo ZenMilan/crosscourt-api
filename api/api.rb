@@ -17,7 +17,10 @@ module Crosscourt
     end
 
     # Error Handling
-    rescue_from :all
+    rescue_from :all do |e|
+      binding.pry
+    end
+
     rescue_from Grape::Exceptions::ValidationErrors do |e|
       error = e.as_json.first
       Rack::Response.new({

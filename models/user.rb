@@ -16,7 +16,11 @@ class User < ActiveRecord::Base
   has_many :payments
   has_secure_password
 
-  validates :email, uniqueness: true
+  validates :first_name, presence: true
+  validates :last_name, presence: true
+  validates :email, uniqueness: true, presence: true
+  validates :password, presence: true
+  validates :password_confirmation, presence: true
 
   def gh_client
     @gh_client ||= Octokit::Client.new(access_token: gh_access_token)

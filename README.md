@@ -10,7 +10,7 @@
 * Run bundle
   * `bundle`
 * Wipe / Rebuild DB
-  * `RAKE_ENV=test rake db:drop db:create db:migrate db:test:prepare`
+  * `RAKE_ENV=test rake db:drop db:create db:migrate`
 * Run Rspec
   * `bundle exec rspec .`
 

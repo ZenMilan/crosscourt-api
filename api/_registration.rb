@@ -14,16 +14,16 @@ module Crosscourt
       params do
         group :registration, type: Hash do
           group :user, type: Hash do
-            requires :first_name, type: String, non_blank: true
-            requires :last_name, type: String, non_blank: true
-            requires :email, type: String, non_blank: true
-            requires :password, type: String, non_blank: true
+            requires :first_name, type: String
+            requires :last_name, type: String
+            requires :email, type: String
+            requires :password, type: String
           end
           group :organization, type: Hash do
-            requires :name, type: String, non_blank: true
+            requires :name, type: String
           end
           group :payment, type: Hash do
-            requires :details, type: String, non_blank: true
+            requires :details, type: String
           end
         end
       end
