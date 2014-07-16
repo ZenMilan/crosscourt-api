@@ -1,3 +1,3 @@
-class ClientInvitation < Invitation; end
-
-class MemberInvitation < Invitation; end
+# class ClientInvitation < Invitation; end
+#
+# class MemberInvitation < Invitation; end

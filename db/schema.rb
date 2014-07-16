@@ -11,52 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 9) do
+ActiveRecord::Schema.define(version: 4) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "access_tokens", force: true do |t|
-    t.string   "token",                      null: false
-    t.string   "description"
-    t.boolean  "available",   default: true
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "organization_affiliations", force: true do |t|
+    t.integer "user_id"
+    t.integer "organization_id"
   end
-
-  add_index "access_tokens", ["token"], name: "index_access_tokens_on_token", unique: true, using: :btree
-
-  create_table "affiliations", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "organization_id"
-    t.integer  "project_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "features", force: true do |t|
-    t.integer  "project_id",                            null: false
-    t.string   "title"
-    t.text     "description"
-    t.decimal  "price",         precision: 8, scale: 2
-    t.string   "delivery_time"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "invitations", force: true do |t|
-    t.string   "type"
-    t.integer  "sender_id"
-    t.string   "recipient_email"
-    t.integer  "organization_id"
-    t.integer  "project_id"
-    t.string   "token"
-    t.datetime "sent_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "invitations", ["token"], name: "index_invitations_on_token", unique: true, using: :btree
 
   create_table "organizations", force: true do |t|
     t.string   "name",       null: false
@@ -66,25 +29,7 @@ ActiveRecord::Schema.define(version: 9) do
 
   create_table "payments", force: true do |t|
     t.integer  "organization_id"
-    t.integer  "user_id"
     t.string   "details"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "payments", ["organization_id"], name: "index_payments_on_organization_id", unique: true, using: :btree
-
-  create_table "projects", force: true do |t|
-    t.string   "name",            null: false
-    t.integer  "organization_id", null: false
-    t.string   "purpose"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "proposals", force: true do |t|
-    t.boolean  "approved",   default: false
-    t.integer  "project_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -94,9 +39,7 @@ ActiveRecord::Schema.define(version: 9) do
     t.string   "first_name",                 null: false
     t.string   "last_name",                  null: false
     t.string   "email",                      null: false
-    t.string   "gh_access_token"
     t.string   "password_digest"
-    t.integer  "invitation_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

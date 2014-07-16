@@ -6,9 +6,9 @@ class Organization < ActiveRecord::Base
   has_one :payment, inverse_of: :organization
   has_many :projects
 
-  validates :name, presence: true
-
-  def owner
-    User.find(payment.user_id)
+  def cardholder
+    members.where(type: 'OrganizationLeader').first
   end
+
+  alias_method :owner, :cardholder
 end

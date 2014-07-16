@@ -1,24 +1,15 @@
 module Crosscourt
-
   class API < Grape::API
-    # Header/Routing Information
     version 'v1', using: :header, vendor: 'crosscourt', strict: true
     prefix 'api'
     format :json
     default_format :json
 
-    # Cookie Secret
-    use Rack::Session::Cookie, secret: rand.to_s()
+    use Rack::Session::Cookie, secret: rand.to_s
 
-    # Warden Initialization
     use Warden::Manager do |manager|
       manager.default_strategies :password
       manager.failure_app = Warden::AuthFailure
-    end
-
-    # Error Handling
-    rescue_from :all do |e|
-      binding.pry
     end
 
     rescue_from Grape::Exceptions::ValidationErrors do |e|
@@ -30,7 +21,6 @@ module Crosscourt
       }.to_json, e.status)
     end
 
-    # API "Modules"
     mount Crosscourt::Status::API
     mount Crosscourt::Registration::API
     mount Crosscourt::Authentication::API
