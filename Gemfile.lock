@@ -151,4 +151,5 @@ DEPENDENCIES
   rspec
   rubocop
   shotgun
+  virtus
   warden

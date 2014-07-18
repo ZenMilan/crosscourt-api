@@ -21,4 +21,5 @@ gem 'rake', require: false
 gem 'rspec', group: :test
 gem 'rubocop'
 gem 'shotgun', group: :development, require: false
+gem 'virtus'
 gem 'warden'

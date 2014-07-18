@@ -1,16 +1,20 @@
 module Crosscourt
   module Registration
     class API < Grape::API
-
-      desc "Gain access to exclusive beta account!"
+      desc 'Gain access to exclusive beta account!'
       get 'registration/beta/:token' do
         token = ::AccessToken.where(token: params[:token]).first
-        error! "invalid token", 401 unless token and token.available?
+        error! 'invalid token', 401 unless token && token.available?
 
         present :message, 'welcome to beta'
       end
 
-      desc "Register new account"
+      rescue_from Crosscourt::RegistrationErrors do |e|
+        error = e.message.humanize
+        Rack::Response.new({ error: error }.to_json, 400)
+      end
+
+      desc 'Register new account'
       params do
         group :registration, type: Hash do
           group :user, type: Hash do
@@ -34,7 +38,6 @@ module Crosscourt
         present :message, 'account registered'
         present :current_user, env['warden'].user, with: ::API::Entities::User
       end
-
     end
   end
 end

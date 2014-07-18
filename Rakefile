@@ -33,3 +33,7 @@ rescue LoadError
 end
 
 task default: [:spec, :rubocop]
+
+task :wipe_db do
+  sh "RAKE_ENV=test rake db:drop db:create db:migrate"
+end
