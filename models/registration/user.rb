@@ -1,4 +1,4 @@
-module Crosscourt
+module Virtus
   module Registration
     class User
       include Virtus.model

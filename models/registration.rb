@@ -1,11 +1,11 @@
-module Crosscourt; class RegistrationErrors < StandardError; end; end
+module RegistrationErrors; class ValidationError < StandardError; end; end
 
 class Registration
   include Virtus.model
 
-  attribute :user, Crosscourt::Registration::User
-  attribute :organization, Crosscourt::Registration::Organization
-  attribute :payment, Crosscourt::Registration::Payment
+  attribute :user, Registration::User
+  attribute :organization, Registration::Organization
+  attribute :payment, Registration::Payment
 
   def register!
     if self[:user].valid? && self[:organization].valid? && self[:payment].valid?
@@ -19,7 +19,7 @@ class Registration
 
   def fail_registration(model, msg = 'registration error')
     model.errors.messages.each { |k, v| msg = "#{k} #{v.first}" }
-    fail Crosscourt::RegistrationErrors.new msg
+    fail RegistrationErrors::ValidationError.new msg
   end
 
 private

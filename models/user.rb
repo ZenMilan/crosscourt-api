@@ -15,3 +15,9 @@ class User < ActiveRecord::Base
 
   has_secure_password
 end
+
+class OrganizationMember < User; end
+
+class OrganizationLeader < User; end
+
+class Client < User; end
