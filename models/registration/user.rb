@@ -1,4 +1,10 @@
-module Virtus
+class LowerCaseEmail < Virtus::Attribute
+  def coerce(value)
+    value.downcase
+  end
+end
+
+module Crosscourt
   module Registration
     class User
       include Virtus.model
@@ -9,7 +15,7 @@ module Virtus
 
       attribute :first_name, String
       attribute :last_name, String
-      attribute :email, String
+      attribute :email, LowerCaseEmail
       attribute :password, String
 
       validates :first_name, presence: true

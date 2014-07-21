@@ -3,9 +3,9 @@ module RegistrationErrors; class ValidationError < StandardError; end; end
 class Registration
   include Virtus.model
 
-  attribute :user, Registration::User
-  attribute :organization, Registration::Organization
-  attribute :payment, Registration::Payment
+  attribute :user, Crosscourt::Registration::User
+  attribute :organization, Crosscourt::Registration::Organization
+  attribute :payment, Crosscourt::Registration::Payment
 
   def register!
     if self[:user].valid? && self[:organization].valid? && self[:payment].valid?
@@ -36,7 +36,7 @@ private
   end
 
   def create_org!
-    @user.organizations.create!(organization.attributes)
+    @user.organizations.create!(organization.attributes.merge(org_name: organization.name.downcase))
   end
 
   def create_payment!

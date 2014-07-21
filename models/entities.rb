@@ -4,8 +4,13 @@ module API
       expose :id, :first_name, :last_name, :email, :organizations
     end
 
+    class Member < Grape::Entity
+      expose :id, :first_name, :last_name, :email, :type
+    end
+
     class Organization < Grape::Entity
-      expose :id, :name, :members
+      expose :id, :name
+      expose :members, using: API::Entities::Member
     end
 
     class Invitation < Grape::Entity

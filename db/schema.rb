@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 4) do
 
   create_table "organizations", force: true do |t|
     t.string   "name",       null: false
+    t.string   "org_name",   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
