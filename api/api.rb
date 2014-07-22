@@ -1,6 +1,6 @@
 module Crosscourt
   class API < Grape::API
-    version 'v1', using: :header, vendor: 'crosscourt', strict: true
+    version 'v1', using: :header, vendor: 'crosscourt'
     prefix 'api'
     format :json
     default_format :json
