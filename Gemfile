@@ -6,6 +6,7 @@ gem 'activerecord', require: 'active_record'
 gem 'bcrypt'
 gem 'database_cleaner', group: :test
 gem 'dotenv', group: :development
+gem 'fabrication'
 gem 'faraday'
 gem 'faraday_middleware'
 gem 'grape'

@@ -2,9 +2,10 @@ ENV['RACK_ENV'] = 'test'
 
 require File.expand_path('../../config/environment', __FILE__)
 
-# Dir[File.expand_path('../support/*.rb', __FILE__)].sort.each { |f| require f }
+Dir[File.expand_path('../support/*.rb', __FILE__)].sort.each { |f| require f }
 
 RSpec.configure do |config|
+  config.include Rack::Test::Methods
   config.order = :random
   config.mock_with :rspec
   config.expect_with :rspec
