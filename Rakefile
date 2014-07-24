@@ -25,10 +25,10 @@ task test: :spec
 
 namespace :setup do
   task :db do
-    sh "RAKE_ENV=test rake db:drop db:create db:migrate db:test:prepare"
+    sh 'RAKE_ENV=test rake db:drop db:create db:migrate db:test:prepare'
   end
   task :bundle do
-    sh bundle
+    sh 'bundle'
   end
 end
 

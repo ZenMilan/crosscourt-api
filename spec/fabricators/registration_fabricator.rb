@@ -1,5 +1,5 @@
 Fabricator(:registration) do
-  user
+  user { Fabricate(:org_leader) }
   organization
   payment
 end
