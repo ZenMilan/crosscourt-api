@@ -57,6 +57,10 @@ describe Crosscourt::API do
           }
         end
 
+        it 'shows fabricator', fabricator: true do
+          p Fabricate.attributes_for(:registration)
+        end
+
         it 'should print success message' do
           post '/api/register', registration_params, 'HTTP_ACCEPT' => 'application/vnd.crosscourt-v1+json'
 

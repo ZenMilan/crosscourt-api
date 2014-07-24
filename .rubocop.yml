@@ -107,3 +107,7 @@ SpaceInsideBlockBraces:
 SpaceInsideHashLiteralBraces:
   EnforcedStyle: space
   EnforcedStyleForEmptyBraces: no_space
+
+# Remove snake_case clause for Atom linter
+Style/FileName:
+  Enabled: false
