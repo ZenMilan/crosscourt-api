@@ -41,5 +41,5 @@ rescue LoadError
   end
 end
 
-task default: [:spec, :rubocop]
+task default: ['setup:db', :spec, :rubocop]
 task bootstrap: ['setup:db', 'setup:bundle']
