@@ -6,7 +6,7 @@ gem 'activerecord', require: 'active_record'
 gem 'bcrypt'
 gem 'database_cleaner', group: :test
 gem 'dotenv', group: :development
-gem 'fabrication', group: :test
+gem 'fabrication', group: [:development, :test]
 gem 'faker', group: :test
 gem 'faraday'
 gem 'faraday_middleware'
