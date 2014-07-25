@@ -7,83 +7,84 @@ describe Crosscourt::API do
   end
 
   describe 'Registration#register!' do
+    let(:attrs) do
+      {
+        registration:
+        {
+          user: Fabricate.attributes_for(:org_leader),
+          organization: Fabricate.attributes_for(:organization),
+          payment: Fabricate.attributes_for(:payment)
+        }
+      }
+    end
+
     context 'with valid parameters' do
-      include_context 'valid parameters' do
+      it 'should create a user' do
+        expect { register! }.to change { User.count }.by 1
+      end
 
-        it 'should create a user' do
-          expect { register! }.to change { User.count }.by 1
-        end
+      it 'should create an organization' do
+        expect { register! }.to change { Organization.count }.by 1
+      end
 
-        it 'should create an organization' do
-          expect { register! }.to change { Organization.count }.by 1
-        end
+      it 'should create a payment' do
+        expect { register! }.to change { Payment.count }.by 1
+      end
 
-        it 'should create a payment' do
-          expect { register! }.to change { Payment.count }.by 1
-        end
+      it 'should return a user' do
+        expect(register!).to include(:user)
+      end
 
-        it 'should return a user' do
-          expect(register!).to include(:user)
-        end
+      it 'should set user as organization leader' do
+        register!
 
-        it 'should set user as organization leader' do
-          register!
+        expect(User.last.type).to eq 'OrganizationLeader'
+      end
 
-          expect(User.last.type).to eq 'OrganizationLeader'
-        end
+      it 'should create user / organization association' do
+        register!
 
-        it 'should set user as organization\'s #owner' do
-          register!
+        expect(User.last.organizations).to include(Organization.last)
+      end
 
-          expect(Organization.last.owner.first_name).to eq params[:registration][:user][:first_name]
-        end
+      it 'should create organization / payment association' do
+        register!
 
-        it 'should print success message' do
-          post '/api/register', params, 'HTTP_ACCEPT' => 'application/vnd.crosscourt-v1+json'
-
-          expect(JSON.parse(last_response.body)['message']).to eq('account registered')
-        end
+        expect(Organization.last.payment).to eq Payment.last
       end
     end
 
-    # context 'with multiple blank credentials' do
-    #   let(:registration_params) do
-    #     {
-    #       registration:
-    #       {
-    #         user: Fabricate.attributes_for(:org_leader, first_name: '', last_name: ''),
-    #         organization: Fabricate.attributes_for(:organization),
-    #         payment: Fabricate.attributes_for(:payment)
-    #       }
-    #     }
-    #   end
-    #
-    #   it 'logs error and fails to register account' do
-    #     post '/api/register', registration_params, 'HTTP_ACCEPT' => 'application/vnd.crosscourt-v1+json'
-    #
-    #     expect(last_response.status).to eq 400
-    #     expect(last_response.body).to match(/can't be blank/)
-    #   end
-    # end
-    #
-    # context 'using credentials that already exist' do
-    #
-    #   let(:registration_params) do
-    #     {
-    #       registration:
-    #       {
-    #         user: { name: 'kevin', email: 'pruett.kevin@gmail.com', password: 'password' },
-    #         organization: { name: 'another org' },
-    #         payment: { details: 'VISA' }
-    #       }
-    #     }
-    #   end
-    #
-    #   it 'fails to create new account' do
-    #     post '/api/register', registration_params
-    #
-    #     expect(last_response.body).to eq({ error: 'Validation failed: Email has already been taken' }.to_json)
-    #   end
-    # end
+    context 'with invalid parameters' do
+      it 'fails when first name is blank' do
+        expect do
+          register! params: attrs[:registration].merge!(user: Fabricate.attributes_for(:user, first_name: ''))
+        end.to raise_error RegistrationErrors::ValidationError, /can't be blank/
+      end
+
+      it 'fails when last name and email are blank' do
+        expect do
+          register! params: attrs[:registration].merge!(user: Fabricate.attributes_for(:user, last_name: '', email: ''))
+        end.to raise_error RegistrationErrors::ValidationError, /can't be blank/
+      end
+
+      it 'fails when organization name is blank' do
+        expect do
+          register! params: attrs[:registration].merge!(organization: Fabricate.attributes_for(:organization, name: ''))
+        end.to raise_error RegistrationErrors::ValidationError, /can't be blank/
+      end
+    end
+
+    context 'with existing credentials' do
+
+      before(:example) do
+        register! params: attrs[:registration].merge!(user: Fabricate.attributes_for(:user, email: 'pruett.kevin@gmail.com'))
+      end
+
+      it 'fails to create new account' do
+        expect do
+          register! params: attrs[:registration].merge!(organization: Fabricate.attributes_for(:user, email: 'pruett.kevin@gmail.com'))
+        end.to raise_error RegistrationErrors::ValidationError
+      end
+    end
   end
 end

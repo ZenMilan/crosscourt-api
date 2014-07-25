@@ -1,18 +1,24 @@
-shared_context 'valid parameters' do
+module Crosscourt
+  module Rspec
+    module RegistrationHelpers
+      def register!(params: nil)
+        attributes = params ? params : attrs[:registration]
 
-  def register!
-    ::Registration.new(params[:registration]).register!
+        ::Registration.new(attributes).register!
+      end
+    end
   end
+end
 
-  let(:params) do
+shared_context 'invalid attrs' do
+  let(:attrs) do
     {
       registration:
       {
-        user: Fabricate.attributes_for(:org_leader),
+        user: Fabricate.attributes_for(:org_leader, first_name: '', last_name: ''),
         organization: Fabricate.attributes_for(:organization),
         payment: Fabricate.attributes_for(:payment)
       }
     }
   end
-
 end

@@ -1,6 +1,6 @@
 class LowerCaseEmail < Virtus::Attribute
   def coerce(value)
-    value.downcase
+    value.downcase if value
   end
 end
 
