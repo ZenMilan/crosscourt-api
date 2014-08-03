@@ -24,11 +24,11 @@ RSpec::Core::RakeTask.new(:spec)
 task test: :spec
 
 namespace :setup do
-  task :db do
-    sh 'RAKE_ENV=test rake db:drop db:create db:migrate db:test:prepare'
-  end
   task :bundle do
     sh 'bundle'
+  end
+  task :db do
+    sh 'RAKE_ENV=test rake db:drop db:create db:migrate db:test:prepare'
   end
 end
 
@@ -41,5 +41,5 @@ rescue LoadError
   end
 end
 
-task bootstrap: ['setup:db', 'setup:bundle']
+task bootstrap: ['setup:bundle', 'setup:db']
 task default: [:spec, :rubocop]
