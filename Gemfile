@@ -7,7 +7,7 @@ gem 'bcrypt'
 gem 'database_cleaner', group: :test
 gem 'dotenv', group: :development
 gem 'fabrication', group: [:development, :test]
-gem 'faker', group: :test
+gem 'faker', group: [:development, :test]
 gem 'faraday'
 gem 'faraday_middleware'
 gem 'grape'

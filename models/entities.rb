@@ -9,7 +9,7 @@ module API
     end
 
     class Organization < Grape::Entity
-      expose :id, :name
+      expose :id, :name, :projects
       expose :members, using: API::Entities::Member
     end
 
