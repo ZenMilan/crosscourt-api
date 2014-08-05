@@ -44,7 +44,7 @@ end
 task bootstrap: ['setup:bundle', 'setup:db']
 task default: [:spec, :rubocop]
 
-task :seed_db do
+task seed_db: ['setup:bundle'] do
   sh 'rake db:drop db:create db:migrate'
   ruby 'db/seeds.rb'
 end
