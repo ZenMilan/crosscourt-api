@@ -35,8 +35,10 @@ module Crosscourt
         registration = ::Registration.new(params[:registration]).register!
         env['warden'].set_user(registration[:user])
 
-        present :message, 'account registered'
-        present :current_user, env['warden'].user, with: ::API::Entities::User
+        # p env['warden']
+
+        # present :message, 'account registered'
+        # present :current_user, env['warden'].user, with: ::API::Entities::User
       end
     end
   end
