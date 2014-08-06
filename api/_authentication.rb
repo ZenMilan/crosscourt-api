@@ -22,7 +22,6 @@ module Crosscourt
       desc 'Fetch current user\'s information'
       get 'current_user' do
         throw(:warden, error: 'unauthenticated') unless env['warden'].authenticated?
-
         present :current_user, env['warden'].user, with: ::API::Entities::User
       end
     end

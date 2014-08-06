@@ -22,11 +22,10 @@ describe Crosscourt::API do
       before(:example) { post! route: '/api/register', params: attrs }
 
       it 'should print success message' do
-        # expect(JSON.parse(last_response.body)['message']).to eq('account registered')
-        puts last_response.body
+        expect(JSON.parse(last_response.body)['message']).to eq('account registered')
       end
 
-      xit 'should set current user' do
+      it 'should set current user' do
         expect(JSON.parse(last_response.body)['current_user']['first_name']).to eq(User.last.first_name)
       end
     end
