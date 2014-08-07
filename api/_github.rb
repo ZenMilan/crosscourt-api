@@ -1,8 +1,7 @@
 module Crosscourt
   module GitHub
     class API < Grape::API
-
-      desc "GitHub Authentication Callback"
+      desc 'GitHub Authentication Callback'
       get 'github/callback' do
         session_code = request.params['code']
 
@@ -14,19 +13,19 @@ module Crosscourt
 
         result = conn.post('/login/oauth/access_token',
           {
-            client_id: ENV["GITHUB_CLIENTID"],
-            client_secret: ENV["GITHUB_SECRET"],
-            code: session_code
-          },
-            { 'Accept' => 'application/json' }
-          )
+            client_id:     ENV['GITHUB_CLIENTID'],
+            client_secret: ENV['GITHUB_SECRET'],
+            code:          session_code
+          }, 'Accept' => 'application/json'
+        )
 
-        gh_auth = ::GitHubAuthenticator.new(env['warden'].user.id, result.body)
+        gh_auth = ::GitHubAuthenticator.new(1, result.body)
         result = gh_auth.authenticate!
 
-        result.each { |key, message| present key.to_sym, message }
+        status, msg = result.flatten
+        # handle redirect here, if success else redirect elsewhere
+        redirect "#{ENV['REDIRECT_URI']}?status=#{status}&message=#{msg}"
       end
-
     end
   end
 end

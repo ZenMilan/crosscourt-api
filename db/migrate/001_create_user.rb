@@ -6,6 +6,7 @@ class CreateUser < ActiveRecord::Migration
       t.string :last_name, null: false
       t.string :email, null: false
       t.string :password_digest
+      t.string :gh_access_token, limit: 100
 
       t.timestamps
     end
