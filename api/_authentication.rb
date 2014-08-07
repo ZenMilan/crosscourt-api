@@ -21,6 +21,9 @@ module Crosscourt
 
       desc 'Fetch current user\'s information'
       get 'current_user' do
+        env['rack.session'][:foo] = 'bar'
+        binding.pry
+
         throw(:warden, error: 'unauthenticated') unless env['warden'].authenticated?
         present :current_user, env['warden'].user, with: ::API::Entities::User
       end
