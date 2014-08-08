@@ -21,7 +21,6 @@ module Crosscourt
 
       desc 'Fetch current user\'s information'
       get 'current_user' do
-        env['rack.session'][:foo] = 'bar'
         binding.pry
 
         throw(:warden, error: 'unauthenticated') unless env['warden'].authenticated?
