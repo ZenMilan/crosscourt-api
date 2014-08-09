@@ -5,7 +5,7 @@ module Crosscourt
     format :json
     default_format :json
 
-    use Rack::Session::Cookie, secret: rand.to_s, domain: ".#{ENV['API_DOMAIN']}"
+    use Rack::Session::Cookie, secret: rand.to_s
 
     use Warden::Manager do |manager|
       manager.default_strategies :password
