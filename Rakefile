@@ -2,7 +2,7 @@ require 'active_record'
 
 include ActiveRecord::Tasks
 
-db_dir = File.expand_path('../db', __FILE__)
+db_dir = File.expand_path('../app/db', __FILE__)
 config_dir = File.expand_path('../config', __FILE__)
 env = ENV['RACK_ENV'] || 'development'
 
@@ -27,8 +27,11 @@ namespace :setup do
   task :bundle do
     sh 'bundle'
   end
-  task :db do
+  task :test_db do
     sh 'RAKE_ENV=test rake db:drop db:create db:migrate db:test:prepare'
+  end
+  task :dev_db do
+    sh 'rake db:drop db:create db:migrate'
   end
 end
 
@@ -41,10 +44,5 @@ rescue LoadError
   end
 end
 
-task bootstrap: ['setup:bundle', 'setup:db']
+task bootstrap: ['setup:bundle', 'setup:test_db', 'setup:dev_db']
 task default: [:spec, :rubocop]
-
-task seed_db: ['setup:bundle'] do
-  sh 'rake db:drop db:create db:migrate'
-  ruby 'db/seeds.rb'
-end

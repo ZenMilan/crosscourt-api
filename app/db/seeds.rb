@@ -1,4 +1,4 @@
-require File.expand_path('../../config/environment', __FILE__)
+require File.expand_path('../../../config/environment', __FILE__)
 
 attrs = {
   user: Fabricate.attributes_for(:org_leader),
