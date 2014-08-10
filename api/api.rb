@@ -7,6 +7,10 @@ module Crosscourt
 
     use Rack::Session::Cookie, secret: rand.to_s
 
+    use OmniAuth::Builder do
+      provider :github, ENV['GITHUB_CLIENTID'], ENV['GITHUB_SECRET'], scope: 'user,repo'
+    end
+
     rescue_from Grape::Exceptions::ValidationErrors do |e|
       error = e.as_json.first
       Rack::Response.new({

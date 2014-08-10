@@ -12,8 +12,6 @@ class User < ActiveRecord::Base
   # A user can be a client on multiple projects
   has_many :project_affiliations
   has_many :projects, through: :project_affiliations
-
-  has_secure_password
 end
 
 class OrganizationMember < User; end
