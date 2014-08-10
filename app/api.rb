@@ -1,15 +1,10 @@
 module Crosscourt
   class API < Grape::API
+
     version 'v1', using: :header, vendor: 'crosscourt', strict: true
     prefix 'api'
     format :json
     default_format :json
-
-    use Rack::Session::Cookie, secret: rand.to_s
-
-    use OmniAuth::Builder do
-      provider :github, ENV['GITHUB_CLIENTID'], ENV['GITHUB_SECRET'], scope: 'user,repo'
-    end
 
     rescue_from Grape::Exceptions::ValidationErrors do |e|
       error = e.as_json.first
