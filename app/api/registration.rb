@@ -33,10 +33,10 @@ module Crosscourt
       end
       post 'register' do
         registration = ::Registration.new(params[:registration]).register!
-        env['warden'].set_user(registration[:user])
-        binding.pry
-        present :message, 'account registered'
-        present :current_user, env['warden'].user, with: ::API::Entities::User
+        # env['warden'].set_user(registration[:user])
+        # binding.pry
+        # present :message, 'account registered'
+        # present :current_user, env['warden'].user, with: ::API::Entities::User
       end
     end
   end

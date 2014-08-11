@@ -5,7 +5,7 @@ module Crosscourt
         @instance ||= Rack::Builder.new do
           api = Crosscourt::API
 
-          use Rack::Session::Cookie, secret: rand.to_s
+          use Rack::Session::Cookie, secret: rand.to_s, domain: ENV['COOKIE_DOMAIN']
 
           if ENV['GITHUB_KEY'] && ENV['GITHUB_SECRET']
             api.logger.info 'Enabling Github authentication.'

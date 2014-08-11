@@ -22,5 +22,4 @@ gem 'rack-test', group: :test, require: 'rack/test'
 gem 'rake', require: false
 gem 'rspec', group: :test
 gem 'rubocop'
-gem 'shotgun', group: :development, require: false
 gem 'virtus'

@@ -1,7 +1,6 @@
 module Crosscourt
   class API < Grape::API
     version 'v1', using: :header, vendor: 'crosscourt', strict: true
-    prefix 'api'
     format :json
     default_format :json
 
@@ -21,6 +20,5 @@ module Crosscourt
     mount Crosscourt::Project::API
     mount Crosscourt::Organization::API
     mount Crosscourt::Project::API
-    mount Crosscourt::GitHub::API
   end
 end
