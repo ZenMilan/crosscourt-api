@@ -7,9 +7,9 @@ development: &defaults
   password: ""
 
 test:
-  <<:*defaults
+  <<: *defaults
   database: cc_test
 
 production:
-  <<:*defaults
+  <<: *defaults
   database: cc_production
