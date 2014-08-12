@@ -1,4 +1,5 @@
 require 'active_record'
+require 'rspec/core/rake_task'
 
 include ActiveRecord::Tasks
 
@@ -17,10 +18,7 @@ include ActiveRecord::Tasks
 
 load 'active_record/railties/databases.rake'
 
-require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec)
-
-task test: :spec
 
 begin
   require 'rubocop/rake_task'
