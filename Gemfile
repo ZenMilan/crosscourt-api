@@ -21,6 +21,6 @@ gem 'racksh', group: :development, require: false
 gem 'rack-cors', require: 'rack/cors'
 gem 'rack-test', group: :test, require: 'rack/test'
 gem 'rake', require: false
-gem 'rspec', group: :test
+gem 'rspec'
 gem 'rubocop'
 gem 'virtus'
