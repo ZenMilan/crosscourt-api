@@ -1,4 +1,4 @@
-require File.expand_path('../config/environment', __FILE__)
+require 'active_record'
 
 include ActiveRecord::Tasks
 load 'active_record/railties/databases.rake'
