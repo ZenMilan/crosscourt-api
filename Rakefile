@@ -4,7 +4,7 @@ include ActiveRecord::Tasks
 
 db_dir = File.expand_path('../app/db', __FILE__)
 config_dir = File.expand_path('../config', __FILE__)
-env = 'development'
+env = ENV['RACK_ENV'] || 'development'
 
 DatabaseTasks.env = env
 DatabaseTasks.db_dir = db_dir
