@@ -9,7 +9,7 @@ env = ENV['RACK_ENV'] || 'development'
 
 DatabaseTasks.env = env
 DatabaseTasks.db_dir = db_dir
-DatabaseTasks.database_configuration = YAML.load(File.read(File.join(config_dir, 'database.yml')))
+# DatabaseTasks.database_configuration = YAML.load(File.read(File.join(config_dir, 'database.yml')))
 DatabaseTasks.migrations_paths = File.join(db_dir, 'migrate')
 
 task :environment do
