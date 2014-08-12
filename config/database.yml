@@ -17,5 +17,3 @@ production:
   encoding: unicode
   database: cc_production
   pool: 5
-  username: pruett
-  password:
