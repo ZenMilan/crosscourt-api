@@ -18,9 +18,20 @@ module Crosscourt
         }
 
         binding.pry
-        
+
         params = env['omniauth.params']
         redirect "#{ENV['REGISTRATION_REDIRECT']}?message=successful%20authentication" if params['type'] == 'registration'
+      end
+
+      get '/set_cookie' do
+        cookies[:foo] = 'bar'
+
+        { message: 'set cookie foo to bar' }
+      end
+
+      get '/check_cookie' do
+        binding.pry
+        { message: 'check yo cookies' }
       end
     end
   end

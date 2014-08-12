@@ -1,9 +1,16 @@
 module Crosscourt
   class App
     class << self
-      def instance
+      def instance # rubocop:disable Metrics/MethodLength
         @instance ||= Rack::Builder.new do
           api = Crosscourt::API
+
+          use Rack::Cors do
+            allow do
+              origins 'cc.dev'
+              resource '*', headers: :any, methods: [:get, :post, :delete, :put, :options]
+            end
+          end
 
           use Rack::Session::Cookie, secret: rand.to_s, domain: ENV['COOKIE_DOMAIN']
 
