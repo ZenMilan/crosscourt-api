@@ -7,8 +7,10 @@ module Crosscourt
 
           use Rack::Cors do
             allow do
-              origins 'cc.dev'
-              resource '*', headers: :any, methods: [:get, :post, :delete, :put, :options]
+              origins 'localhost:1111'
+              resource '*',
+                headers: :any,
+                methods: [:get, :post, :put, :delete, :options]
             end
           end
 

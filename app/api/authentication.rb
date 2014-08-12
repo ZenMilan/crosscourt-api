@@ -5,11 +5,6 @@ module Crosscourt
       get '/auth/:provider/callback' do
         auth = env['omniauth.auth']
 
-        # env['rack.session'][:name] = auth.info.name
-        # env['rack.session'][:email] = auth.info.email
-        # env['rack.session'][:uid] = auth.uid
-        # env['rack.session'][:token] = auth.credentials.token
-
         cookies[:gh_user] = {
           name:  auth.info.name,
           email: auth.info.email,
