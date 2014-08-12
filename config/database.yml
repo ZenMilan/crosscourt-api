@@ -1,19 +1,15 @@
-test:
+development: &defaults
   adapter: postgresql
+  database: cc_dev
   encoding: unicode
-  database: cc_test
-  pool: 5
-
-development:
-  adapter: postgresql
-  encoding: unicode
-  database: cc_development
   pool: 5
   username: pruett
-  password:
+  password: ""
+
+test:
+  <<:*defaults
+  database: cc_test
 
 production:
-  adapter: postgresql
-  encoding: unicode
+  <<:*defaults
   database: cc_production
-  pool: 5
