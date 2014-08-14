@@ -7,14 +7,14 @@ module Crosscourt
 
           use Rack::Cors do
             allow do
-              origins 'localhost:1111'
+              origins ENV['CORS_ORIGIN']
               resource '*',
                 headers: :any,
                 methods: [:get, :post, :put, :delete, :options]
             end
           end
 
-          use Rack::Session::Cookie, secret: rand.to_s, domain: ENV['COOKIE_DOMAIN']
+          use Rack::Session::Cookie, secret: rand.to_s
 
           if ENV['GITHUB_KEY'] && ENV['GITHUB_SECRET']
             api.logger.info 'Enabling Github authentication.'

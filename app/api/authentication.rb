@@ -5,29 +5,33 @@ module Crosscourt
       get '/auth/:provider/callback' do
         auth = env['omniauth.auth']
 
-        cookies[:gh_user] = {
-          name:  auth.info.name,
-          email: auth.info.email,
-          uid:   auth.uid,
-          token: auth.credentials.token
-        }
+        response_params = env['omniauth.params']
+        uri_params      = "?name=#{auth.info.name}"\
+                          "&uid=#{auth.uid}"\
+                          "&token=#{auth.credentials.token}"\
 
-        binding.pry
-
-        params = env['omniauth.params']
-        redirect "#{ENV['REGISTRATION_REDIRECT']}?message=successful%20authentication" if params['type'] == 'registration'
+        if response_params['type'] == 'registration'
+          redirect "#{ENV['REGISTRATION_REDIRECT']}#{URI.escape(uri_params)}"
+        end
       end
 
-      get '/set_cookie' do
-        cookies[:foo] = 'bar'
-
-        { message: 'set cookie foo to bar' }
-      end
-
-      get '/check_cookie' do
-        binding.pry
-        { message: 'check yo cookies' }
-      end
+      # get '/set_cookie' do
+      #   cookies[:foo] = {
+      #     value: 'bar',
+      #     domain: ENV['COOKIE_DOMAIN']
+      #   }
+      #
+      #   env['rack.session'][:foo] = 'bar'
+      #
+      #   binding.pry
+      #   { message: 'set cookie foo to bar' }
+      # end
+      #
+      # get '/check_cookie' do
+      #   env['rack.session'][:init] = true
+      #   binding.pry
+      #   { message: 'check yo cookies' }
+      # end
     end
   end
 end
