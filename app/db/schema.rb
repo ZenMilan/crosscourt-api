@@ -45,13 +45,15 @@ ActiveRecord::Schema.define(version: 5) do
 
   create_table "users", force: true do |t|
     t.string   "type",       limit: 50,  null: false
+    t.string   "uid",        limit: 50,  null: false
+    t.string   "token",      limit: 100
     t.string   "name",                   null: false
     t.string   "email",                  null: false
-    t.string   "token",      limit: 100
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["uid"], name: "index_users_on_uid", unique: true, using: :btree
 
 end

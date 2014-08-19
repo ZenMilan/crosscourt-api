@@ -29,3 +29,6 @@ rescue LoadError
 end
 
 task default: [:spec, :rubocop]
+task :build do
+  sh 'rake db:drop db:create db:migrate'
+end

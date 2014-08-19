@@ -1,9 +1,3 @@
-class LowerCaseEmail < Virtus::Attribute
-  def coerce(value)
-    value.downcase if value
-  end
-end
-
 module Crosscourt
   module Registration
     class User
@@ -13,26 +7,33 @@ module Crosscourt
       include ActiveModel::Conversion
       include ActiveModel::Validations
 
-      attribute :first_name, String
-      attribute :last_name, String
-      attribute :email, LowerCaseEmail
-      attribute :password, String
+      attribute :uid, String
+      attribute :token, String
 
-      validates :first_name, presence: true
-      validates :last_name, presence: true
-      validates :email, presence: true
-      validates :password, presence: true
+      validates :uid, presence: true
+      validates :token, presence: true
 
-      validate :unique_email
+      validate :unique_uid
 
       def persisted?
         false
       end
 
+      def construct_via_gh_token!(user)
+        gh_client = Octokit::Client.new(access_token: user.token)
+
+        user_attrs = {
+          name: gh_client.user.name,
+          email: gh_client.user.email
+        }
+
+        ::User::TYPES[:organization_leader].constantize.create! user.attributes.merge(user_attrs)
+      end
+
     private
 
-      def unique_email
-        errors.add(:email, 'has already been taken') unless ::User.where(email: email).count == 0
+      def unique_uid
+        errors.add(:uid, 'has already been registered') unless ::User.where(uid: uid).count == 0
       end
     end
   end

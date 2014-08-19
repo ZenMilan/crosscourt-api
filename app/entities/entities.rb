@@ -1,11 +1,11 @@
 module API
   module Entities
     class User < Grape::Entity
-      expose :id, :first_name, :last_name, :email, :organizations
+      expose :id, :name, :email, :organizations
     end
 
     class Member < Grape::Entity
-      expose :id, :first_name, :last_name, :email, :type
+      expose :id, :name, :email, :type
     end
 
     class Organization < Grape::Entity

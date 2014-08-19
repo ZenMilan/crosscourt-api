@@ -32,7 +32,7 @@ private
   end
 
   def create_user!
-    User::TYPES[:organization_leader].constantize.create!(user.attributes.merge(password_confirmation: user.password))
+    user.construct_via_gh_token!(user)
   end
 
   def create_org!

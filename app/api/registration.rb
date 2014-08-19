@@ -18,10 +18,8 @@ module Crosscourt
       params do
         group :registration, type: Hash do
           group :user, type: Hash do
-            requires :first_name, type: String
-            requires :last_name, type: String
-            requires :email, type: String
-            requires :password, type: String
+            requires :uid, type: String
+            requires :token, type: String
           end
           group :organization, type: Hash do
             requires :name, type: String
@@ -33,10 +31,8 @@ module Crosscourt
       end
       post 'register' do
         registration = ::Registration.new(params[:registration]).register!
-        # env['warden'].set_user(registration[:user])
-        # binding.pry
-        # present :message, 'account registered'
-        # present :current_user, env['warden'].user, with: ::API::Entities::User
+        present :message, 'account registered'
+        present :current_user, registration[:user], with: ::API::Entities::User
       end
     end
   end
