@@ -21,6 +21,8 @@ module Crosscourt
             use OmniAuth::Strategies::GitHub, ENV['GITHUB_KEY'], ENV['GITHUB_SECRET'], scope: 'user,repo'
           end
 
+          use ActiveRecord::ConnectionAdapters::ConnectionManagement
+
           run api
         end.to_app
       end

@@ -10,19 +10,21 @@ module Crosscourt
         error! "Organization #{params[:name]} does not exist", 404 unless organization
         present :projects, organization.projects # , with: ::API::Entities::Organization
       end
-      # desc 'Create new project'
-      # params do
-      #   group :project, type: Hash do
-      #     requires :name, type: String
-      #     requires :purpose, type: String
-      #     requires :organization_id, type: Integer
-      #   end
-      # end
-      # post 'projects' do
-      #   ::Project.create!(params[:project].to_h)
-      #   { message: "successfully created #{params[:project][:name]}" }
-      # end
-      #
+
+      desc 'Create new project'
+      params do
+        group :project, type: Hash do
+          requires :name, type: String
+          requires :purpose, type: String
+        end
+      end
+      post 'organizations/:name/projects' do
+        organization = ::Organization.where(name: params[:name]).first
+
+        organization.build_project(params[:project].to_h)
+        { message: "successfully created #{params[:project][:name]}" }
+      end
+
       # desc 'Update project'
       # params do
       #   group :project, type: Hash do
